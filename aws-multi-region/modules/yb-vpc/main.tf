@@ -6,7 +6,7 @@ resource "aws_vpc" "yb_vpc" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
   tags = {
-    Name = "${var.resource_prefix}-${var.region}-yb-vpc"
+    Name             = "${var.resource_prefix}-${var.region}-yb-vpc"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -128,7 +128,7 @@ resource "aws_security_group" "yb_sg" {
   }
 
   tags = {
-    Name = "${var.resource_prefix}-${var.region}-yb-sg"
+    Name             = "${var.resource_prefix}-${var.region}-yb-sg"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -140,7 +140,7 @@ resource "aws_security_group" "yb_sg" {
 resource "aws_internet_gateway" "yb_igw" {
   vpc_id = aws_vpc.yb_vpc.id
   tags = {
-    Name = "${var.resource_prefix}-${var.region}-yb-igw"
+    Name             = "${var.resource_prefix}-${var.region}-yb-igw"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -156,7 +156,7 @@ resource "aws_subnet" "yb_public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.resource_prefix}-yb-public-subnet-${var.public_subnet_zone}"
+    Name             = "${var.resource_prefix}-yb-public-subnet-${var.public_subnet_zone}"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -172,7 +172,7 @@ resource "aws_subnet" "yb_private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.resource_prefix}-yb-private-subnet1-${var.private_subnet_zone}"
+    Name             = "${var.resource_prefix}-yb-private-subnet1-${var.private_subnet_zone}"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -184,7 +184,7 @@ resource "aws_subnet" "yb_private_subnet" {
 resource "aws_route_table" "yb_public_rt" {
   vpc_id = aws_vpc.yb_vpc.id
   tags = {
-    Name = "${var.resource_prefix}-yb-public-route-table"
+    Name             = "${var.resource_prefix}-yb-public-route-table"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value

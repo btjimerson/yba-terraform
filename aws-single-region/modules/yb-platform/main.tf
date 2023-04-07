@@ -6,7 +6,7 @@ resource "aws_vpc" "yba_vpc" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
   tags = {
-    Name = "${var.resource_prefix}-yba-vpc"
+    Name             = "${var.resource_prefix}-yba-vpc"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -51,7 +51,7 @@ resource "aws_security_group" "yba_sg" {
   }
 
   tags = {
-    Name = "${var.resource_prefix}-yba-sg"
+    Name             = "${var.resource_prefix}-yba-sg"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -63,7 +63,7 @@ resource "aws_security_group" "yba_sg" {
 resource "aws_internet_gateway" "yba_igw" {
   vpc_id = aws_vpc.yba_vpc.id
   tags = {
-    Name = "${var.resource_prefix}-yba-igw"
+    Name             = "${var.resource_prefix}-yba-igw"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -79,7 +79,7 @@ resource "aws_subnet" "yba_public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.resource_prefix}-yba-public-subnet-${var.public_subnet_zone}"
+    Name             = "${var.resource_prefix}-yba-public-subnet-${var.public_subnet_zone}"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -95,7 +95,7 @@ resource "aws_subnet" "yba_private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.resource_prefix}-yba-private-subnet1-${var.private_subnet_zone}"
+    Name             = "${var.resource_prefix}-yba-private-subnet1-${var.private_subnet_zone}"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -107,7 +107,7 @@ resource "aws_subnet" "yba_private_subnet" {
 resource "aws_route_table" "yba_public_rt" {
   vpc_id = aws_vpc.yba_vpc.id
   tags = {
-    Name = "${var.resource_prefix}-yba-public-route-table"
+    Name             = "${var.resource_prefix}-yba-public-route-table"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value
@@ -261,7 +261,7 @@ resource "aws_instance" "yba" {
     volume_type           = var.instance_volume_type
   }
   tags = {
-    Name = "${var.resource_prefix}-yba"
+    Name             = "${var.resource_prefix}-yba"
     "yb_dept"        = var.department_tag_value
     "yb_task"        = var.task_tag_value
     "yb_owner"       = var.owner_tag_value

@@ -1,6 +1,6 @@
 data "google_client_config" "default" {}
 
-provider "google-beta" {
+provider "google" {
   project = var.project_id
   region  = var.region
 }
@@ -43,7 +43,7 @@ resource "google_container_cluster" "cluster" {
   subnetwork               = google_compute_subnetwork.subnet.name
   initial_node_count       = 1
   remove_default_node_pool = true
-  provider                 = google-beta
+  provider                 = google
 
 }
 
@@ -53,7 +53,7 @@ resource "google_container_node_pool" "primary_node_pool" {
   location   = var.region
   cluster    = google_container_cluster.cluster.name
   node_count = var.node_pool_size
-  provider   = google-beta
+  provider   = google
 
   node_config {
     oauth_scopes = [
@@ -77,49 +77,6 @@ resource "google_container_node_pool" "primary_node_pool" {
   }
 }
 
-# GKE hub membership for Anthos config management
-resource "google_gke_hub_membership" "membership" {
-  membership_id = "${var.resource_prefix}-membership"
-  provider      = google-beta
-  endpoint {
-    gke_cluster {
-      resource_link = "//container.googleapis.com/${google_container_cluster.cluster.id}"
-    }
-  }
-}
-
-# Anthos config managmement
-resource "google_gke_hub_feature_membership" "feature_member" {
-  location   = "global"
-  membership = google_gke_hub_membership.membership.membership_id
-  feature    = "configmanagement"
-  provider   = google-beta
-  configmanagement {
-    config_sync {
-      source_format = var.acm_config_sync_source_format
-      git {
-        sync_repo   = var.acm_git_repo
-        sync_branch = var.acm_repo_branch
-        secret_type = var.acm_repo_authentication
-      }
-    }
-  }
-}
-
-# Credentials for Github sync
-resource "kubernetes_secret" "git_creds" {
-  depends_on = [google_gke_hub_feature_membership.feature_member]
-  metadata {
-    name      = "git-creds"
-    namespace = var.acm_namespace
-  }
-
-  data = {
-    username = var.acm_repo_username
-    token    = var.acm_repo_pat
-  }
-}
-
 # Kubeconfig
 module "gke_auth" {
   source     = "terraform-google-modules/kubernetes-engine/google//modules/auth"
@@ -128,5 +85,21 @@ module "gke_auth" {
   project_id   = var.project_id
   location     = google_container_cluster.cluster.location
   cluster_name = google_container_cluster.cluster.name
+}
+
+# YBA
+module "yba" {
+  source                                       = "./modules/yba"
+  depends_on                                   = [google_container_cluster.cluster]
+  yba_namespace                                = var.yba_namespace
+  yba_pull_secret                              = var.yba_pull_secret
+  yba_role                                     = var.yba_role
+  yba_role_binding                             = var.yba_role_binding
+  yba_sa                                       = var.yba_sa
+  yba_universe_management_cluster_role         = var.yba_universe_management_cluster_role
+  yba_universe_management_cluster_role_binding = var.yba_universe_management_cluster_role_binding
+  yba_universe_management_namespace            = var.yba_universe_management_namespace
+  yba_universe_management_sa                   = var.yba_universe_management_sa
+  yba_version                                  = var.yba_version
 }
 
