@@ -7,7 +7,7 @@ This repository contains a Terraform configuration to create a GKE cluster with 
 * A VPC
 * A public subnet in the VPC
 * A GKE cluster
-* An ACM configuration to deploy / manage YBA in the cluster 
+* YBA platform
 
 ## Prerequisites
 
