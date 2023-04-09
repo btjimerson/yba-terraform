@@ -43,6 +43,7 @@ variable "node_pool_size" {
 variable "node_pool_machine_type" {
   description = "The machine type to use for the default node pool"
   type        = string
+  default     = "c2-standard-16"
 }
 variable "node_pool_disk_type" {
   description = "The disk type to use for the node pool's machine disk (one of pd-standard | pd-balanced | pd-ssd)"
