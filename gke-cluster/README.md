@@ -13,9 +13,9 @@ This repository contains a Terraform configuration to create a GKE cluster with 
 
 The following must be done manually prior to applying the configuration:
 
-* Install [gcloud] (https://cloud.google.com/sdk/docs/install) on your workstation
-* Install [kubectl] (https://kubernetes.io/docs/tasks/tools/) on your workstation
-* Install [helm] (https://helm.sh/docs/intro/install/) on your workstation
+* Install [gcloud](https://cloud.google.com/sdk/docs/install) on your workstation
+* Install [kubectl](https://kubernetes.io/docs/tasks/tools/) on your workstation
+* Install [helm](https://helm.sh/docs/intro/install/) on your workstation
 * Install the [terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) on your workstation
 * Initialize the gcloud CLI: `gcloud init`
 * Log in to GCP: `gcloud auth application-default login`
@@ -35,7 +35,7 @@ Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-configure_kubectl_command = "gcloud container clusters get-credentials my-acm-cluster --region us-central1 --project my-project"
+configure_kubectl_command = "gcloud container clusters get-credentials my-cluster --region us-central1 --project my-project"
 ```
 
 You can use the value for `configure_kubectl_command` to add the new cluster's context to your configuration and set it as the default context.
