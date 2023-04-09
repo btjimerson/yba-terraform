@@ -1,8 +1,8 @@
-# Yugabyte Platform GKE Configuration for Anthos Config Management
+# YugabyteDB Anywhere GKE Configuration
 
 ## Introduction
 
-This repository contains a Terraform configuration to create a GKE cluster with YugabyteDB Anywhere and registers the cluster with Anthos Config Management (ACM).  By default, this configuration creates:
+This repository contains a Terraform configuration to create a GKE cluster with YugabyteDB Anywhere. By default, this configuration creates:
 
 * A VPC
 * A public subnet in the VPC
@@ -38,6 +38,12 @@ configure_kubectl_command = "gcloud container clusters get-credentials my-acm-cl
 ```
 
 You can use the value for `configure_kubectl_command` to add the new cluster's context to your configuration and set it as the default context.
+
+To access the YBA Plaform UI, get the IP address of the LoadBalancer service like this:
+
+```
+kubectl get svc yugaware-yugaware-ui -n yugabyte -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
