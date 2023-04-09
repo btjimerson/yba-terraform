@@ -17,12 +17,20 @@ The following must be done manually prior to applying the configuration:
 * Install [kubectl](https://kubernetes.io/docs/tasks/tools/) on your workstation
 * Install [helm](https://helm.sh/docs/intro/install/) on your workstation
 * Install the [terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) on your workstation
+* Install [terrform-docs](https://terraform-docs.io/user-guide/installation/) on your workstation
 * Initialize the gcloud CLI: `gcloud init`
 * Log in to GCP: `gcloud auth application-default login`
 
 ## Installation
 
-Once you have the variables defined and have copied the file `variables.tfvars.example` to something like `myvars.auto.tfvars`, you can apply the configuration as usual:
+First, create a terraform variables file. The easiest way to set the required variables is to use `terraform-docs`
+```bash
+terraform-docs tfvars hcl .
+```
+Any variables that are blank will need to be set in a `*.auto.tfvars` or `terraform.tfvars` file. Optionally, you can override variables that have a default value.
+
+
+Once you have the variables defined you can apply the configuration as usual:
 
 ```
 terraform init
