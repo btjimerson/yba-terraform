@@ -1,27 +1,36 @@
-# Yugabyte Platform GKE Configuration for Anthos Config Management
+# YugabyteDB Anywhere GKE Configuration
 
 ## Introduction
 
-This repository contains a Terraform configuration to create a GKE cluster with YugabyteDB Anywhere and registers the cluster with Anthos Config Management (ACM).  By default, this configuration creates:
+This repository contains a Terraform configuration to create a GKE cluster with YugabyteDB Anywhere. By default, this configuration creates:
 
 * A VPC
 * A public subnet in the VPC
 * A GKE cluster
-* YBA platform
+* YugabyteDB Anywhere
 
 ## Prerequisites
 
 The following must be done manually prior to applying the configuration:
 
-* Install [gcloud] (https://cloud.google.com/sdk/docs/install) on your workstation
-* Install [kubectl] (https://kubernetes.io/docs/tasks/tools/) on your workstation
+* Install [gcloud](https://cloud.google.com/sdk/docs/install) on your workstation
+* Install [kubectl](https://kubernetes.io/docs/tasks/tools/) on your workstation
+* Install [helm](https://helm.sh/docs/intro/install/) on your workstation
 * Install the [terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) on your workstation
+* Install [terrform-docs](https://terraform-docs.io/user-guide/installation/) on your workstation
 * Initialize the gcloud CLI: `gcloud init`
 * Log in to GCP: `gcloud auth application-default login`
 
 ## Installation
 
-Once you have the variables defined and have copied the file `variables.tfvars.example` to something like `myvars.auto.tfvars`, you can apply the configuration as usual:
+First, create a terraform variables file. The easiest way to set the required variables is to use `terraform-docs`
+```bash
+terraform-docs tfvars hcl .
+```
+Any variables that are blank will need to be set in a `*.auto.tfvars` or `terraform.tfvars` file. Optionally, you can override variables that have a default value.
+
+
+Once you have the variables defined you can apply the configuration as usual:
 
 ```
 terraform init
@@ -34,10 +43,16 @@ Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-configure_kubectl_command = "gcloud container clusters get-credentials my-acm-cluster --region us-central1 --project my-project"
+configure_kubectl_command = "gcloud container clusters get-credentials my-cluster --region us-central1 --project my-project"
 ```
 
 You can use the value for `configure_kubectl_command` to add the new cluster's context to your configuration and set it as the default context.
+
+To access the YBA Plaform UI, get the IP address of the LoadBalancer service like this:
+
+```
+kubectl get svc yugaware-yugaware-ui -n yugabyte -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
