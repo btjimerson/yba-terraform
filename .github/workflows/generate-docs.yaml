@@ -12,10 +12,26 @@ jobs:
     steps:
     - name: Checkout latest commit
       uses: actions/checkout@v3
-    - name: Render terraform docs and push changes back
+    - name: Render terraform docs for aws-multi-region and push changes back
       uses: terraform-docs/gh-actions@main
       with:
-        working-dir: .
+        working-dir: aws-multi-region
+        output-file: "README.md"
+        output-format: "markdown table"
+        output-method: "inject"
+        git-push: "true"
+    - name: Render terraform docs for aws-single-region and push changes back
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: aws-single-region
+        output-file: "README.md"
+        output-format: "markdown table"
+        output-method: "inject"
+        git-push: "true"
+    - name: Render terraform docs for gke-cluster and push changes back
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: gke-cluster
         output-file: "README.md"
         output-format: "markdown table"
         output-method: "inject"
