@@ -2,17 +2,14 @@
 
 ## Introduction
 
-This repository contains a Terraform configuration to create a multi-region AWS environment with Yugabyte Platform.  By default, this configuration creates:
+This repository contains a Terraform configuration to create a single-region AWS environment with Yugabyte Platform.  By default, this configuration creates:
 
-* 3 VPCs in 3 regions
-* A public and a private subnet in each VPC
-* A security group for each VPC to allow the required YugabyteDB traffic
-* A peering connection between each VPC
-* A VPC dedicated to Yugabyte Platform
-* A peering connection between the Yugabyte Platform VPC and each node VPC
+* A VPC in one region
+* A public and a private subnet in the VPC
+* A security group for the VPC to allow the required YugabyteDB traffic
 * An EC2 instance with Replicated installed to install Yugabyte Platform
 
-Once this configuration is applied, you are ready to install Yugabyte Platform, multi-region AWS cloud provider, and the corresponding Universe.
+Once this configuration is applied, you are ready to install Yugabyte Platform, single-region AWS cloud provider, and the corresponding Universe.
 
 ## Prerequisites
 
@@ -21,6 +18,13 @@ The following must be done manually prior to applying the configuration:
 * Create a keypair in the region where you are going to install Yugabyte Platform.  This is used for SSH access to the EC2 instance.
 * Make sure your AWS credentials are able to create IAM policies and roles in your AWS account.
 * Install the [terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) on your workstation.
+* [terrform-docs](https://terraform-docs.io/user-guide/installation/)
+
+## Create your terraform variables file
+The easiest way to set the required variables is to use `terraform-docs`
+```bash
+terraform-docs tfvars hcl .
+```
 
 ## Installation
 
