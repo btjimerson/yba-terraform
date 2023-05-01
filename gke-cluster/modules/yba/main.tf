@@ -29,33 +29,6 @@ resource "kubernetes_secret" "yugabyte_pull_secret" {
   type = "kubernetes.io/dockerconfigjson"
 }
 
-// Config map for YBA pull secret
-resource "kubernetes_config_map" "yba_pull_secret_config_map" {
-  depends_on = [kubernetes_namespace.yba_namespace]
-  metadata {
-    name      = "yugabyte-pull-secret-config-map"
-    namespace = var.yba_namespace
-  }
-  data = {
-    "yugabyte-pull-secret.yaml" = <<EOT
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: yugabyte-pull-secret-config-map
-  namespace: ${var.yba_namespace}
-data:
-  yugabyte-pull-secret.yaml: |
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: yugabyte-k8s-pull-secret
-    data:
-      .dockerconfigjson: ${base64encode(var.yba_pull_secret)}
-    type: kubernetes.io/dockerconfigjson
-EOT
-  }
-}
-
 // Install YBA helm chart
 resource "helm_release" "yba" {
   depends_on = [
@@ -67,16 +40,6 @@ resource "helm_release" "yba" {
   version    = var.yba_version
   repository = "https://charts.yugabyte.com"
   chart      = "yugaware"
-}
-
-// Get the IP address for YBA
-data "external" "yba_ui_ip" {
-  depends_on = [helm_release.yba]
-  program = [
-    "sh",
-    "-c",
-    "jq -n --arg content \"$(kubectl get svc yugaware-yugaware-ui -n ${var.yba_namespace} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\" '{$content}'"
-  ]
 }
 
 // Create the YBA service account
