@@ -9,7 +9,7 @@ terraform {
 
 # Set up Yugabyte Platform
 module "yb_platform" {
-  source                               = "./modules/yb-platform"
+  source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -33,7 +33,7 @@ module "yb_platform" {
 
 # VPC for the region
 module "yb_vpc_region" {
-  source                               = "./modules/yb-vpc"
+  source                               = "./modules/yba-vpc"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -56,7 +56,7 @@ module "yb_vpc_region" {
 
 # Peering connection between Yugabyte Platform and the 1st region
 module "yb_pcx_yba_region_yb_region" {
-  source                          = "./modules/yb-pcx"
+  source                          = "./modules/yba-pcx"
   resource_prefix                 = var.resource_prefix
   department_tag_value            = var.department_tag_value
   task_tag_value                  = var.task_tag_value

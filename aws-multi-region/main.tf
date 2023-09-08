@@ -9,7 +9,7 @@ terraform {
 
 # Set up Yugabyte Platform
 module "yb_platform" {
-  source                               = "./modules/yb-platform"
+  source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -33,7 +33,7 @@ module "yb_platform" {
 
 # VPC for the 1st region
 module "yb_vpc_region_1" {
-  source                               = "./modules/yb-vpc"
+  source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -53,7 +53,7 @@ module "yb_vpc_region_1" {
 
 # VPC for the 2nd region
 module "yb_vpc_region_2" {
-  source                               = "./modules/yb-vpc"
+  source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -73,7 +73,7 @@ module "yb_vpc_region_2" {
 
 # VPC for the 3rd region
 module "yb_vpc_region_3" {
-  source                               = "./modules/yb-vpc"
+  source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -93,7 +93,7 @@ module "yb_vpc_region_3" {
 
 # Peering connection between Yugabyte Platform and the 1st region
 module "yb_pcx_yba_region_1" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
@@ -112,7 +112,7 @@ module "yb_pcx_yba_region_1" {
 
 # Peering connection between Yugabyte Platform and the 2nd region
 module "yb_pcx_yba_region_2" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
@@ -131,7 +131,7 @@ module "yb_pcx_yba_region_2" {
 
 # Peering connection between Yugabyte Platform and the 3rd region
 module "yb_pcx_yba_region_3" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
@@ -150,7 +150,7 @@ module "yb_pcx_yba_region_3" {
 
 # Peering connection between the 1st region and the 2nd region
 module "yb_pcx_region_1_region_2" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
@@ -169,7 +169,7 @@ module "yb_pcx_region_1_region_2" {
 
 # Peering connection between the 1st region and the 3rd region
 module "yb_pcx_region_1_region_3" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
@@ -188,7 +188,7 @@ module "yb_pcx_region_1_region_3" {
 
 # Peering connection between the 2nd region and the 3rd region
 module "yb_pcx_region_2_region_3" {
-  source                        = "./modules/yb-pcx"
+  source                        = "./modules/yba-pcx"
   resource_prefix               = var.resource_prefix
   department_tag_value          = var.department_tag_value
   task_tag_value                = var.task_tag_value
