@@ -76,9 +76,9 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_yb_pcx_yba_region_yb_region"></a> [yb\_pcx\_yba\_region\_yb\_region](#module\_yb\_pcx\_yba\_region\_yb\_region) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_platform"></a> [yb\_platform](#module\_yb\_platform) | ./modules/yb-platform | n/a |
-| <a name="module_yb_vpc_region"></a> [yb\_vpc\_region](#module\_yb\_vpc\_region) | ./modules/yb-vpc | n/a |
+| <a name="module_yb_pcx_yba_region_yb_region"></a> [yb\_pcx\_yba\_region\_yb\_region](#module\_yb\_pcx\_yba\_region\_yb\_region) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_platform"></a> [yb\_platform](#module\_yb\_platform) | ./modules/yba | n/a |
+| <a name="module_yb_vpc_region"></a> [yb\_vpc\_region](#module\_yb\_vpc\_region) | ./modules/yba-vpc | n/a |
 
 ## Resources
 

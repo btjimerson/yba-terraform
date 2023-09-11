@@ -72,16 +72,16 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_yb_pcx_region_1_region_2"></a> [yb\_pcx\_region\_1\_region\_2](#module\_yb\_pcx\_region\_1\_region\_2) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_pcx_region_1_region_3"></a> [yb\_pcx\_region\_1\_region\_3](#module\_yb\_pcx\_region\_1\_region\_3) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_pcx_region_2_region_3"></a> [yb\_pcx\_region\_2\_region\_3](#module\_yb\_pcx\_region\_2\_region\_3) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_pcx_yba_region_1"></a> [yb\_pcx\_yba\_region\_1](#module\_yb\_pcx\_yba\_region\_1) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_pcx_yba_region_2"></a> [yb\_pcx\_yba\_region\_2](#module\_yb\_pcx\_yba\_region\_2) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_pcx_yba_region_3"></a> [yb\_pcx\_yba\_region\_3](#module\_yb\_pcx\_yba\_region\_3) | ./modules/yb-pcx | n/a |
-| <a name="module_yb_platform"></a> [yb\_platform](#module\_yb\_platform) | ./modules/yb-platform | n/a |
-| <a name="module_yb_vpc_region_1"></a> [yb\_vpc\_region\_1](#module\_yb\_vpc\_region\_1) | ./modules/yb-vpc | n/a |
-| <a name="module_yb_vpc_region_2"></a> [yb\_vpc\_region\_2](#module\_yb\_vpc\_region\_2) | ./modules/yb-vpc | n/a |
-| <a name="module_yb_vpc_region_3"></a> [yb\_vpc\_region\_3](#module\_yb\_vpc\_region\_3) | ./modules/yb-vpc | n/a |
+| <a name="module_yb_pcx_region_1_region_2"></a> [yb\_pcx\_region\_1\_region\_2](#module\_yb\_pcx\_region\_1\_region\_2) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_pcx_region_1_region_3"></a> [yb\_pcx\_region\_1\_region\_3](#module\_yb\_pcx\_region\_1\_region\_3) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_pcx_region_2_region_3"></a> [yb\_pcx\_region\_2\_region\_3](#module\_yb\_pcx\_region\_2\_region\_3) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_pcx_yba_region_1"></a> [yb\_pcx\_yba\_region\_1](#module\_yb\_pcx\_yba\_region\_1) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_pcx_yba_region_2"></a> [yb\_pcx\_yba\_region\_2](#module\_yb\_pcx\_yba\_region\_2) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_pcx_yba_region_3"></a> [yb\_pcx\_yba\_region\_3](#module\_yb\_pcx\_yba\_region\_3) | ./modules/yba-pcx | n/a |
+| <a name="module_yb_platform"></a> [yb\_platform](#module\_yb\_platform) | ./modules/yba | n/a |
+| <a name="module_yb_vpc_region_1"></a> [yb\_vpc\_region\_1](#module\_yb\_vpc\_region\_1) | ./modules/yba | n/a |
+| <a name="module_yb_vpc_region_2"></a> [yb\_vpc\_region\_2](#module\_yb\_vpc\_region\_2) | ./modules/yba | n/a |
+| <a name="module_yb_vpc_region_3"></a> [yb\_vpc\_region\_3](#module\_yb\_vpc\_region\_3) | ./modules/yba | n/a |
 
 ## Resources
 
