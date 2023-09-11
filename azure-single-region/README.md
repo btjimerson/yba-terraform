@@ -59,7 +59,7 @@ You can open the output for `replicated_url` in a browser and continue installat
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.0.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.0.0 |
 
 ## Modules
 
