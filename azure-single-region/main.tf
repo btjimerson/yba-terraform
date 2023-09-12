@@ -4,12 +4,39 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.0.0"
     }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "2.41.0"
+    }
   }
 }
 
-# Provider configuration
+# Provider configurations
 provider "azurerm" {
+  subscription_id = var.subscription_id
   features {}
+}
+provider "azuread" {
+  tenant_id = var.tenant_id
+}
+
+data "azuread_client_config" "current" {}
+
+# AD application registration
+resource "azuread_application" "yba_application" {
+  display_name = "${var.resource_prefix}-app"
+  owners       = [data.azuread_client_config.current.object_id]
+}
+
+# Client secret for ad application
+resource "azuread_application_password" "yba_application_password" {
+  application_object_id = azuread_application.yba_application.object_id
+}
+
+# Service principal for ad application
+resource "azuread_service_principal" "yba_application_sp" {
+  application_id = azuread_application.yba_application.application_id
+  owners         = [data.azuread_client_config.current.object_id]
 }
 
 # Resource group
@@ -23,6 +50,20 @@ resource "azurerm_resource_group" "yba_resource_group" {
     yb_task     = var.task_tag_value
     yb_customer = var.customer_tag_value
   }
+}
+
+# Application Network Contributor role for rg
+resource "azurerm_role_assignment" "app_network_contributor_role_assignment" {
+  scope                = azurerm_resource_group.yba_resource_group.id
+  principal_id         = azuread_service_principal.yba_application_sp.id
+  role_definition_name = "Network Contributor"
+}
+
+# Application Virtual Machine Contributor role for rg
+resource "azurerm_role_assignment" "app_virtual_machine_contributor_role_assignment" {
+  scope                = azurerm_resource_group.yba_resource_group.id
+  principal_id         = azuread_service_principal.yba_application_sp.id
+  role_definition_name = "Virtual Machine Contributor"
 }
 
 # VNET for YBA
@@ -42,13 +83,14 @@ resource "azurerm_virtual_network" "yba_vnet" {
 
 # Subnet for YBA
 resource "azurerm_subnet" "yba_subnet" {
+  depends_on           = [azurerm_virtual_network.yba_vnet]
   name                 = "${var.resource_prefix}-subnet"
   resource_group_name  = azurerm_resource_group.yba_resource_group.name
   virtual_network_name = azurerm_virtual_network.yba_vnet.name
   address_prefixes     = [var.subnet_cidr_block]
 }
 
-# Public IP address
+# Public IP address for YBA
 resource "azurerm_public_ip" "yba_public_ip" {
   name                = "${var.resource_prefix}-public-ip"
   resource_group_name = azurerm_resource_group.yba_resource_group.name
@@ -88,7 +130,7 @@ resource "azurerm_network_interface" "yba_network_interface" {
 
 # Network security group for YBA
 resource "azurerm_network_security_group" "yba_nsg" {
-  name                = "${var.resource_prefix}-nsg"
+  name                = "${var.resource_prefix}-yba-nsg"
   resource_group_name = azurerm_resource_group.yba_resource_group.name
   location            = azurerm_resource_group.yba_resource_group.location
 
@@ -99,31 +141,31 @@ resource "azurerm_network_security_group" "yba_nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = var.nsg_source_cidr
+    source_address_prefix      = var.yba_nsg_source_cidr
     destination_port_range     = "22"
     destination_address_prefix = "*"
   }
 
   security_rule {
-    name                       = "http"
+    name                       = "yba-ui"
     priority                   = 1100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = var.nsg_source_cidr
+    source_address_prefix      = var.yba_nsg_source_cidr
     destination_port_range     = "80"
     destination_address_prefix = "*"
   }
 
   security_rule {
-    name                       = "replicated"
+    name                       = "replicated-ui"
     priority                   = 1200
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    source_address_prefix      = var.nsg_source_cidr
+    source_address_prefix      = var.yba_nsg_source_cidr
     destination_port_range     = "8800"
     destination_address_prefix = "*"
   }
