@@ -5,9 +5,11 @@
 This repository contains a Terraform configuration to create a single-region Azure environment with YugabyteDB Anywhere.  By default, this configuration creates:
 
 * A resource group in one region
-* A virtual network and private subnet in the resource group
-* A security group to allow the required YugabyteDB traffic
+* A virtual network in the resource group
+* A subnet in the virtual network for YBA
+* A security group to allow the required traffic to YBA
 * A public IP address for the YBA VM
+* One or more subnets in the virtual network for YB universes
 * A virtual machine with Replicated installed to install YugabyteDB Anywhere
 * An application registration and client secret to use for the cloud provider config
 
@@ -42,19 +44,24 @@ terraform apply
 If it is successful, you should see an output like this:
 
 ```bash
-Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 16 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-provider_application_client_id = "dea2dc12-4dc5-4cdf-b0fd-ea242a0c50b8"
+provider_application_client_id = "b9d9cf53-603c-4a2d-a820-bd314a3d0dd2"
 provider_application_client_secret = <sensitive>
-provider_region_subnet_name = "bjimerson-yba-demo-subnet"
+provider_region_subnet_names = [
+  "bjimerson-yba-demo-universe-subnet-1",
+  "bjimerson-yba-demo-universe-subnet-2",
+  "bjimerson-yba-demo-universe-subnet-3",
+]
 provider_region_virtual_network_name = "bjimerson-yba-demo-vnet"
 provider_resource_group = "bjimerson-yba-demo-rg"
 provider_subscription_id = "34fb074a-bd59-4da6-a5c0-e5ba86dd21f2"
 provider_tenant_id = "810c029b-d266-4f13-a23a-54b66cfb5f83"
-replicated_url = "http://40.76.99.108:8800"
-yba_ip_address = "40.76.99.108"
+replicated_url = "http://20.51.244.83:8800"
+yba_ip_address = "20.51.244.83"
+
 ```
 
 You can open the output for `replicated_url` in a browser and continue installation as usual (note that it may take a few minutes for Replicated to install and start).

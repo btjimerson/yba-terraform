@@ -40,7 +40,7 @@ resource "azuread_service_principal" "yba_application_sp" {
 }
 
 # Resource group
-resource "azurerm_resource_group" "yba_resource_group" {
+resource "azurerm_resource_group" "yb_resource_group" {
   name     = "${var.resource_prefix}-rg"
   location = var.resource_group_region
 
@@ -54,23 +54,23 @@ resource "azurerm_resource_group" "yba_resource_group" {
 
 # Application Network Contributor role for rg
 resource "azurerm_role_assignment" "app_network_contributor_role_assignment" {
-  scope                = azurerm_resource_group.yba_resource_group.id
+  scope                = azurerm_resource_group.yb_resource_group.id
   principal_id         = azuread_service_principal.yba_application_sp.id
   role_definition_name = "Network Contributor"
 }
 
 # Application Virtual Machine Contributor role for rg
 resource "azurerm_role_assignment" "app_virtual_machine_contributor_role_assignment" {
-  scope                = azurerm_resource_group.yba_resource_group.id
+  scope                = azurerm_resource_group.yb_resource_group.id
   principal_id         = azuread_service_principal.yba_application_sp.id
   role_definition_name = "Virtual Machine Contributor"
 }
 
 # VNET for YBA
-resource "azurerm_virtual_network" "yba_vnet" {
+resource "azurerm_virtual_network" "yb_vnet" {
   name                = "${var.resource_prefix}-vnet"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = azurerm_resource_group.yb_resource_group.location
   address_space       = [var.vnet_cidr_block]
 
   tags = {
@@ -83,18 +83,28 @@ resource "azurerm_virtual_network" "yba_vnet" {
 
 # Subnet for YBA
 resource "azurerm_subnet" "yba_subnet" {
-  depends_on           = [azurerm_virtual_network.yba_vnet]
+  depends_on           = [azurerm_virtual_network.yb_vnet]
   name                 = "${var.resource_prefix}-subnet"
-  resource_group_name  = azurerm_resource_group.yba_resource_group.name
-  virtual_network_name = azurerm_virtual_network.yba_vnet.name
-  address_prefixes     = [var.subnet_cidr_block]
+  resource_group_name  = azurerm_resource_group.yb_resource_group.name
+  virtual_network_name = azurerm_virtual_network.yb_vnet.name
+  address_prefixes     = [var.yba_subnet_cidr]
+}
+
+# Subnets for YB universes
+resource "azurerm_subnet" "universe_subnets" {
+  for_each             = var.universe_subnets
+  depends_on           = [azurerm_virtual_network.yb_vnet]
+  name                 = "${var.resource_prefix}-universe-subnet-${each.key}"
+  resource_group_name  = azurerm_resource_group.yb_resource_group.name
+  virtual_network_name = azurerm_virtual_network.yb_vnet.name
+  address_prefixes     = [each.value]
 }
 
 # Public IP address for YBA
 resource "azurerm_public_ip" "yba_public_ip" {
   name                = "${var.resource_prefix}-public-ip"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = azurerm_resource_group.yb_resource_group.location
   zones               = ["1"]
   sku                 = "Standard"
   allocation_method   = "Static"
@@ -110,8 +120,8 @@ resource "azurerm_public_ip" "yba_public_ip" {
 # Network interface for YBA VM
 resource "azurerm_network_interface" "yba_network_interface" {
   name                = "${var.resource_prefix}-network-interface"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = azurerm_resource_group.yb_resource_group.location
 
   ip_configuration {
     name                          = "private-network-interface"
@@ -131,8 +141,8 @@ resource "azurerm_network_interface" "yba_network_interface" {
 # Network security group for YBA
 resource "azurerm_network_security_group" "yba_nsg" {
   name                = "${var.resource_prefix}-yba-nsg"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = azurerm_resource_group.yb_resource_group.location
 
   security_rule {
     name                       = "ssh"
@@ -195,8 +205,8 @@ locals {
 # VM for YBA
 resource "azurerm_linux_virtual_machine" "yba_vm" {
   name                  = "${var.resource_prefix}-vm"
-  resource_group_name   = azurerm_resource_group.yba_resource_group.name
-  location              = azurerm_resource_group.yba_resource_group.location
+  resource_group_name   = azurerm_resource_group.yb_resource_group.name
+  location              = azurerm_resource_group.yb_resource_group.location
   zone                  = var.virtual_machine_zone
   size                  = var.virtual_machine_size
   admin_username        = var.admin_username
@@ -205,8 +215,8 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = var.disk_type
-    disk_size_gb         = var.disk_size
+    storage_account_type = var.yba_disk_type
+    disk_size_gb         = var.yba_disk_size
   }
 
   admin_ssh_key {
@@ -215,10 +225,10 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
   }
 
   source_image_reference {
-    publisher = var.source_image_publisher
-    offer     = var.source_image_offer
-    sku       = var.source_image_sku
-    version   = var.source_image_version
+    publisher = var.yba_source_image_publisher
+    offer     = var.yba_source_image_offer
+    sku       = var.yba_source_image_sku
+    version   = var.yba_source_image_version
   }
 
   tags = {
