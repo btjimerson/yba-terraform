@@ -4,13 +4,14 @@
 
 This repository contains a Terraform configuration to create a single-region Azure environment with YugabyteDB Anywhere.  By default, this configuration creates:
 
-* A Resource Group in one region
+* A resource group in one region
 * A virtual network and private subnet in the resource group
 * A security group to allow the required YugabyteDB traffic
 * A public IP address for the YBA VM
 * A virtual machine with Replicated installed to install YugabyteDB Anywhere
+* An application registration and client secret to use for the cloud provider config
 
-Once this configuration is applied, you are ready to install YugabyteDB Anywhere, single-region azure cloud provider, and the corresponding Universe.
+Once this configuration is applied, you are ready to install YugabyteDB Anywhere, a single-region azure cloud provider, and the corresponding Universe.
 
 ## Prerequisites
 
@@ -22,10 +23,13 @@ The following must be done manually prior to applying the configuration:
 * Install [terrform-docs](https://terraform-docs.io/user-guide/installation/)
 
 ## Create your terraform variables file
+
 The easiest way to set the required variables is to use `terraform-docs`
 ```bash
 terraform-docs tfvars hcl . > myvars.auto.tfvars
 ```
+
+And then edit `myvars.auto.tfvars` to set your configuration variables.
 
 ## Installation
 
@@ -38,15 +42,28 @@ terraform apply
 If it is successful, you should see an output like this:
 
 ```bash
-Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-replicated_url = "http://20.150.197.155:8800"
-yba_ip_address = "20.150.197.155"
+provider_application_client_id = "dea2dc12-4dc5-4cdf-b0fd-ea242a0c50b8"
+provider_application_client_secret = <sensitive>
+provider_region_subnet_name = "bjimerson-yba-demo-subnet"
+provider_region_virtual_network_name = "bjimerson-yba-demo-vnet"
+provider_resource_group = "bjimerson-yba-demo-rg"
+provider_subscription_id = "34fb074a-bd59-4da6-a5c0-e5ba86dd21f2"
+provider_tenant_id = "810c029b-d266-4f13-a23a-54b66cfb5f83"
+replicated_url = "http://40.76.99.108:8800"
+yba_ip_address = "40.76.99.108"
 ```
 
-You can open the output for `replicated_url` in a browser and continue installation as usual (note that it may take a few minutes for Replicated to install and start). 
+You can open the output for `replicated_url` in a browser and continue installation as usual (note that it may take a few minutes for Replicated to install and start).
+
+You can use the outputs that start with `provider_` to configure your cloud provider for Azure. Note that the client secret is considered sensitive. To view the value, you can output the values as JSON:
+
+```bash
+terraform output -json
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

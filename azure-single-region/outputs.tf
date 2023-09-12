@@ -16,7 +16,7 @@ output "provider_region_subnet_names" {
 
 output "provider_region_virtual_network_name" {
   description = "The virtual network name to use for the Azure cloud provider"
-  value = azurerm_virtual_network.yba_vnet.name
+  value       = azurerm_virtual_network.yba_vnet.name
 }
 
 output "provider_resource_group" {
