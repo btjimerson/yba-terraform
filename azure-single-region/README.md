@@ -4,14 +4,14 @@
 
 This repository contains a Terraform configuration to create a single-region Azure environment with YugabyteDB Anywhere.  By default, this configuration creates:
 
-* A resource group in one region
-* A virtual network in the resource group
-* A subnet in the virtual network for YBA
-* A security group to allow the required traffic to YBA
-* A public IP address for the YBA VM
-* One or more subnets in the virtual network for YB universes
-* A virtual machine with Replicated installed to install YugabyteDB Anywhere
-* An application registration and client secret to use for the cloud provider config
+* A resource group in one region.
+* A virtual network in the resource group.
+* A subnet in the virtual network for YBA.
+* A security group to allow the required traffic to YBA.
+* A public IP address for the YBA VM.
+* One or more subnets in the virtual network for YB universes.
+* A virtual machine with Replicated installed to install YugabyteDB Anywhere. This VM will also have `ysqlsh` and `ycqlsh` installed in the user's home directory. You can SSH into this VM and then access universe nodes from here.
+* An application registration and client secret to use for the cloud provider config.
 
 Once this configuration is applied, you are ready to install YugabyteDB Anywhere, a single-region azure cloud provider, and the corresponding Universe.
 

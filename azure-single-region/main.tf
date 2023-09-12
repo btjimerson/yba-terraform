@@ -199,6 +199,7 @@ locals {
   replicated_script = <<-EOL
   #!/bin/bash -xe
   curl -sSL https://get.replicated.com/docker | sudo bash
+  curl -sSL https://downloads.yugabyte.com/get_clients.sh | bash
   EOL
 }
 
