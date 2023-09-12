@@ -61,7 +61,7 @@ You can open the output for `replicated_url` in a browser and continue installat
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.41.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.0.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.0.0 |
 
 ## Modules
 
@@ -96,7 +96,6 @@ No modules.
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
 | <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | The size of disk for the VM (in GB) | `string` | `"100"` | no |
 | <a name="input_disk_type"></a> [disk\_type](#input\_disk\_type) | The type of disk for the VM | `string` | `"Premium_LRS"` | no |
-| <a name="input_nsg_source_cidr"></a> [nsg\_source\_cidr](#input\_nsg\_source\_cidr) | Source CIDR block of external access for the network security group | `string` | n/a | yes |
 | <a name="input_owner_tag_value"></a> [owner\_tag\_value](#input\_owner\_tag\_value) | The value for the owner tag for resources | `string` | n/a | yes |
 | <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | Azure region for YBA | `string` | `"eastus"` | no |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Prefix for resource names | `string` | n/a | yes |
@@ -112,6 +111,7 @@ No modules.
 | <a name="input_virtual_machine_size"></a> [virtual\_machine\_size](#input\_virtual\_machine\_size) | The size of the VM for YBA | `string` | `"Standard_D8s_v3"` | no |
 | <a name="input_virtual_machine_zone"></a> [virtual\_machine\_zone](#input\_virtual\_machine\_zone) | The zone to create the VM in | `string` | `"1"` | no |
 | <a name="input_vnet_cidr_block"></a> [vnet\_cidr\_block](#input\_vnet\_cidr\_block) | CIDR block for the YBA vnet | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_yba_nsg_source_cidr"></a> [yba\_nsg\_source\_cidr](#input\_yba\_nsg\_source\_cidr) | Source CIDR block of external access for the YBA network security group | `string` | n/a | yes |
 
 ## Outputs
 
@@ -119,7 +119,7 @@ No modules.
 |------|-------------|
 | <a name="output_provider_application_client_id"></a> [provider\_application\_client\_id](#output\_provider\_application\_client\_id) | The application client ID for the Azure cloud provider |
 | <a name="output_provider_application_client_secret"></a> [provider\_application\_client\_secret](#output\_provider\_application\_client\_secret) | The application client secret for the Azure cloud provider |
-| <a name="output_provider_region_subnet_name"></a> [provider\_region\_subnet\_name](#output\_provider\_region\_subnet\_name) | The subnet name to use for the Azure cloud provider's region's 1st zone |
+| <a name="output_provider_region_subnet_names"></a> [provider\_region\_subnet\_names](#output\_provider\_region\_subnet\_names) | The subnet name to use for the Azure cloud provider's region's 1st zone |
 | <a name="output_provider_region_virtual_network_name"></a> [provider\_region\_virtual\_network\_name](#output\_provider\_region\_virtual\_network\_name) | The virtual network name to use for the Azure cloud provider |
 | <a name="output_provider_resource_group"></a> [provider\_resource\_group](#output\_provider\_resource\_group) | The resource group for the Azure cloud provider |
 | <a name="output_provider_subscription_id"></a> [provider\_subscription\_id](#output\_provider\_subscription\_id) | The subscription id for the Azure cloud provider |
