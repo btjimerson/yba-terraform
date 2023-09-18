@@ -126,7 +126,7 @@ No modules.
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The subscription ID to use for Azure resources | `string` | n/a | yes |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
 | <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The tenant ID of the Azure subscription | `string` | n/a | yes |
-| <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. They key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
+| <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. The key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
 | <a name="input_virtual_machine_size"></a> [virtual\_machine\_size](#input\_virtual\_machine\_size) | The size of the VM for YBA. | `string` | `"Standard_D8s_v3"` | no |
 | <a name="input_virtual_machine_zone"></a> [virtual\_machine\_zone](#input\_virtual\_machine\_zone) | The zone to create the YBA VM in. | `string` | `"1"` | no |
 | <a name="input_vnet_cidr_block"></a> [vnet\_cidr\_block](#input\_vnet\_cidr\_block) | The CIDR block for the virtual network. This should be large enough to hold the YBA and universe subnets. | `string` | `"10.0.0.0/16"` | no |
