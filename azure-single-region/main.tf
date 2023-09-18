@@ -105,7 +105,7 @@ resource "azurerm_public_ip" "yba_public_ip" {
   name                = "${var.resource_prefix}-public-ip"
   resource_group_name = azurerm_resource_group.yb_resource_group.name
   location            = azurerm_resource_group.yb_resource_group.location
-  zones               = ["1"]
+  zones               = [var.virtual_machine_zone]
   sku                 = "Standard"
   allocation_method   = "Static"
 

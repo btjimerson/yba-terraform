@@ -55,7 +55,7 @@ variable "tenant_id" {
 }
 
 variable "universe_subnets" {
-  description = "Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet_cidr_block. They key is made part of the subnet name."
+  description = "Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet_cidr_block. The key is made part of the subnet name."
   type        = map(string)
   default = {
     "1" = "10.0.2.0/24",
