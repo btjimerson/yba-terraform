@@ -124,7 +124,7 @@ resource "azurerm_network_interface" "yba_network_interface" {
   location            = azurerm_resource_group.yb_resource_group.location
 
   ip_configuration {
-    name                          = "private-network-interface"
+    name                          = "yba-network-interface"
     subnet_id                     = azurerm_subnet.yba_subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.yba_public_ip.id
@@ -196,7 +196,7 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
 
 # Script to run on startup
 locals {
-  replicated_script = <<-EOL
+  user_data_script = <<-EOL
   #!/bin/bash -xe
   curl -sSL https://get.replicated.com/docker | sudo bash
   curl -sSL https://downloads.yugabyte.com/get_clients.sh | bash
@@ -211,7 +211,7 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
   zone                  = var.virtual_machine_zone
   size                  = var.virtual_machine_size
   admin_username        = var.admin_username
-  user_data             = base64encode(local.replicated_script)
+  user_data             = base64encode(local.user_data_script)
   network_interface_ids = [azurerm_network_interface.yba_network_interface.id]
 
   os_disk {
