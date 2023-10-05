@@ -79,6 +79,7 @@ terraform output -json
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | 2.41.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | =3.0.0 |
+| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.8 |
 
 ## Providers
 
@@ -86,6 +87,7 @@ terraform output -json
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 2.41.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | =3.0.0 |
+| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.8 |
 
 ## Modules
 
@@ -109,6 +111,7 @@ No modules.
 | [azurerm_subnet.yba_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet) | resource |
 | [azurerm_subnet_network_security_group_association.subnet_nsg_association](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_virtual_network.yb_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/virtual_network) | resource |
+| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/installer) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.41.0/docs/data-sources/client_config) | data source |
 
 ## Inputs
@@ -123,21 +126,25 @@ No modules.
 | <a name="input_resource_group_region"></a> [resource\_group\_region](#input\_resource\_group\_region) | The Azure region for the resource group and all resrouces | `string` | `"eastus"` | no |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | Prefix to use for all resource names. | `string` | n/a | yes |
 | <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
+| <a name="input_ssh_private_key_path"></a> [ssh\_private\_key\_path](#input\_ssh\_private\_key\_path) | The path to your private SSH key | `string` | n/a | yes |
 | <a name="input_subscription_id"></a> [subscription\_id](#input\_subscription\_id) | The subscription ID to use for Azure resources | `string` | n/a | yes |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
-| <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The tenant ID of the Azure subscription | `string` | n/a | yes |
+| <a name="input_tenant_id"></a> [tenant\_id](#input\_tenant\_id) | The tenant ID from Microsoft Entra ID | `string` | n/a | yes |
 | <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. The key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
 | <a name="input_virtual_machine_size"></a> [virtual\_machine\_size](#input\_virtual\_machine\_size) | The size of the VM for YBA. | `string` | `"Standard_D8s_v3"` | no |
 | <a name="input_virtual_machine_zone"></a> [virtual\_machine\_zone](#input\_virtual\_machine\_zone) | The zone to create the YBA VM in. | `string` | `"1"` | no |
 | <a name="input_vnet_cidr_block"></a> [vnet\_cidr\_block](#input\_vnet\_cidr\_block) | The CIDR block for the virtual network. This should be large enough to hold the YBA and universe subnets. | `string` | `"10.0.0.0/16"` | no |
 | <a name="input_yba_disk_size"></a> [yba\_disk\_size](#input\_yba\_disk\_size) | The size of disk for the YBA VM (in GB) | `string` | `"100"` | no |
 | <a name="input_yba_disk_type"></a> [yba\_disk\_type](#input\_yba\_disk\_type) | The type of disk for the YBA VM | `string` | `"Premium_LRS"` | no |
+| <a name="input_yba_license_file"></a> [yba\_license\_file](#input\_yba\_license\_file) | The path to the license file for YBA | `string` | n/a | yes |
 | <a name="input_yba_nsg_source_cidr"></a> [yba\_nsg\_source\_cidr](#input\_yba\_nsg\_source\_cidr) | The source CIDR block of external access for the YBA network security group. This is probably your IP address. | `string` | n/a | yes |
+| <a name="input_yba_settings_file"></a> [yba\_settings\_file](#input\_yba\_settings\_file) | The path to the settings file for YBA | `string` | n/a | yes |
 | <a name="input_yba_source_image_offer"></a> [yba\_source\_image\_offer](#input\_yba\_source\_image\_offer) | The offer for the YBA VM source image | `string` | `"0001-com-ubuntu-server-jammy"` | no |
 | <a name="input_yba_source_image_publisher"></a> [yba\_source\_image\_publisher](#input\_yba\_source\_image\_publisher) | The publisher of the YBA VM source image | `string` | `"Canonical"` | no |
 | <a name="input_yba_source_image_sku"></a> [yba\_source\_image\_sku](#input\_yba\_source\_image\_sku) | The SKU for the YBA VM source image | `string` | `"22_04-lts-gen2"` | no |
 | <a name="input_yba_source_image_version"></a> [yba\_source\_image\_version](#input\_yba\_source\_image\_version) | The version of the YBA VM source image | `string` | `"latest"` | no |
 | <a name="input_yba_subnet_cidr"></a> [yba\_subnet\_cidr](#input\_yba\_subnet\_cidr) | The CIDR block for the YBA subnet | `string` | `"10.0.1.0/24"` | no |
+| <a name="input_yba_version"></a> [yba\_version](#input\_yba\_version) | The version of YBA to install (including build number) | `string` | n/a | yes |
 
 ## Outputs
 
