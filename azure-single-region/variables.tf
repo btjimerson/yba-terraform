@@ -39,6 +39,11 @@ variable "sales_region_tag_value" {
   type        = string
 }
 
+variable "ssh_private_key_path" {
+  description = "The path to your private SSH key"
+  type        = string
+}
+
 variable "subscription_id" {
   description = "The subscription ID to use for Azure resources"
   type        = string
@@ -50,7 +55,7 @@ variable "task_tag_value" {
 }
 
 variable "tenant_id" {
-  description = "The tenant ID of the Azure subscription"
+  description = "The tenant ID from Microsoft Entra ID"
   type        = string
 }
 
@@ -82,11 +87,6 @@ variable "vnet_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
-variable "yba_nsg_source_cidr" {
-  description = "The source CIDR block of external access for the YBA network security group. This is probably your IP address."
-  type        = string
-}
-
 variable "yba_disk_size" {
   description = "The size of disk for the YBA VM (in GB)"
   type        = string
@@ -98,6 +98,21 @@ variable "yba_disk_type" {
   description = "The type of disk for the YBA VM"
   type        = string
   default     = "Premium_LRS"
+}
+
+variable "yba_license_file" {
+  description = "The path to the license file for YBA"
+  type        = string
+}
+
+variable "yba_nsg_source_cidr" {
+  description = "The source CIDR block of external access for the YBA network security group. This is probably your IP address."
+  type        = string
+}
+
+variable "yba_settings_file" {
+  description = "The path to the settings file for YBA"
+  type        = string
 }
 
 variable "yba_source_image_offer" {
@@ -128,4 +143,9 @@ variable "yba_subnet_cidr" {
   description = "The CIDR block for the YBA subnet"
   type        = string
   default     = "10.0.1.0/24"
+}
+
+variable "yba_version" {
+  description = "The version of YBA to install (including build number)"
+  type        = string
 }

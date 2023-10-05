@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "2.41.0"
     }
+    yba = {
+      source  = "yugabyte/yba"
+      version = "0.1.8"
+    }
   }
 }
 
@@ -18,6 +22,10 @@ provider "azurerm" {
 }
 provider "azuread" {
   tenant_id = var.tenant_id
+}
+provider "yba" {
+  alias = "unauthenticated"
+  host  = azurerm_public_ip.yba_public_ip.ip_address
 }
 
 data "azuread_client_config" "current" {}
@@ -198,7 +206,6 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
 locals {
   user_data_script = <<-EOL
   #!/bin/bash -xe
-  curl -sSL https://get.replicated.com/docker | sudo bash
   curl -sSL https://downloads.yugabyte.com/get_clients.sh | bash
   EOL
 }
@@ -238,4 +245,15 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
     yb_task     = var.task_tag_value
     yb_customer = var.customer_tag_value
   }
+}
+
+# YBA Installer
+resource "yba_installer" "yba" {
+  provider                  = yba.unauthenticated
+  ssh_host_ip               = azurerm_public_ip.yba_public_ip.ip_address
+  ssh_user                  = var.admin_username
+  yba_license_file          = var.yba_license_file
+  application_settings_file = var.yba_settings_file
+  yba_version               = var.yba_version
+  ssh_private_key_file_path = var.ssh_private_key_path
 }
