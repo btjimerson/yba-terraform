@@ -44,3 +44,11 @@ jobs:
         output-format: "markdown table"
         output-method: "inject"
         git-push: "true"
+    - name: Render terraform docs for azure-yba-universe and push changes back
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: azure-yba-universe
+        output-file: "README.md"
+        output-format: "markdown table"
+        output-method: "inject"
+        git-push: "true"

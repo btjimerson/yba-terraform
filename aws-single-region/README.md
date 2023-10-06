@@ -1,13 +1,14 @@
-# Yugabyte Platform AWS Multi-region Configuration
+# Yugabyte Anywhere AWS Single Region Configuration
 
 ## Introduction
 
 This repository contains a Terraform configuration to create a single-region AWS environment with Yugabyte Platform.  By default, this configuration creates:
 
-* A VPC in one region
-* A public and a private subnet in the VPC
+* A VPC in one region for YBA and universes
+* Public and private subnets in the VPC
 * A security group for the VPC to allow the required YugabyteDB traffic
 * An EC2 instance with Replicated installed to install Yugabyte Platform
+* A security group for the VPC to allow traffic to universe nodes
 
 Once this configuration is applied, you are ready to install Yugabyte Platform, single-region AWS cloud provider, and the corresponding Universe.
 
