@@ -9,6 +9,11 @@ output "provider_application_client_secret" {
   sensitive   = true
 }
 
+output "provider_vnet_id" {
+  description = "The ID of the created vnet for the Azure cloud provider."
+  value       = azurerm_virtual_network.yb_vnet.guid
+}
+
 output "provider_region_subnet_names" {
   description = "The subnet names to use for the Azure cloud provider's region."
   value       = [for subnet in azurerm_subnet.universe_subnets : subnet.name]
@@ -32,11 +37,6 @@ output "provider_subscription_id" {
 output "provider_tenant_id" {
   description = "The tenant id for the Azure cloud provider."
   value       = var.tenant_id
-}
-
-output "replicated_url" {
-  description = "The URL for the Replicated UI."
-  value       = "http://${azurerm_public_ip.yba_public_ip.ip_address}:8800"
 }
 
 output "yba_ip_address" {

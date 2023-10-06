@@ -87,6 +87,16 @@ variable "vnet_cidr_block" {
   default     = "10.0.0.0/16"
 }
 
+variable "yba_admin_name" {
+  description = "The username for the YBA admin"
+  type        = string
+}
+
+variable "yba_admin_email" {
+  description = "The email address for the YBA admin"
+  type        = string
+}
+
 variable "yba_disk_size" {
   description = "The size of disk for the YBA VM (in GB)"
   type        = string
@@ -113,6 +123,7 @@ variable "yba_nsg_source_cidr" {
 variable "yba_settings_file" {
   description = "The path to the settings file for YBA"
   type        = string
+  default     = ""
 }
 
 variable "yba_source_image_offer" {

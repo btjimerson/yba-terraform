@@ -165,7 +165,7 @@ resource "azurerm_network_security_group" "yba_nsg" {
   }
 
   security_rule {
-    name                       = "yba-ui"
+    name                       = "yba-ui-http"
     priority                   = 1100
     direction                  = "Inbound"
     access                     = "Allow"
@@ -177,14 +177,14 @@ resource "azurerm_network_security_group" "yba_nsg" {
   }
 
   security_rule {
-    name                       = "replicated-ui"
+    name                       = "yba-ui-https"
     priority                   = 1200
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     source_address_prefix      = var.yba_nsg_source_cidr
-    destination_port_range     = "8800"
+    destination_port_range     = "443"
     destination_address_prefix = "*"
   }
 
@@ -253,7 +253,16 @@ resource "yba_installer" "yba" {
   ssh_host_ip               = azurerm_public_ip.yba_public_ip.ip_address
   ssh_user                  = var.admin_username
   yba_license_file          = var.yba_license_file
-  application_settings_file = var.yba_settings_file
+  application_settings_file = var.yba_settings_file == "" ? null : var.yba_settings_file
   yba_version               = var.yba_version
   ssh_private_key_file_path = var.ssh_private_key_path
+}
+
+# Admin user for YBA
+# Make sure YB_CUSTOMER_PASSWORD environment variable is set
+resource "yba_customer_resource" "yba_admin" {
+  provider = yba.unauthenticated
+  code     = "admin"
+  email    = var.yba_admin_email
+  name     = var.yba_admin_name
 }
