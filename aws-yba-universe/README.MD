@@ -1,33 +1,22 @@
-# YugabyteDB Anywhere Cloud Provider and Universe for Azure
+# YugabyteDB Anywhere Cloud Provider and Universe for AWS
 
 ## Introduction
 
-This repository contains a Terraform configuration an Azure cloud provider and universe with an existing YBA installation.  This configuration creates:
+This repository contains a Terraform configuration for an AWS cloud provider and universe with an existing YBA installation.  This configuration creates:
 
-* An Azure cloud provider 
+* An AWS cloud provider 
     * A single region in the provider
     * 1 or more zones for the region
-* A universe based on the Azure cloud provider
+* A universe based on the AWS cloud provider
 
 ## Prerequisites
 
 You should have the following prior to applying this configuration
 
 * A YugabyteDB Anywhere installation
-* Access to an available Azure region
-* A resource group for the universe
-* A client id and secret to use to install the universe
-* The subscription and tenant IDs for Azure
-
-## Set up environment variables
-
-The following environment variables should be set prior to applying the configuration
-
-* `AZURE_CLIENT_ID` - The application client ID to use
-* `AZURE_CLIENT_SECRET` - The application client secret to use
-* `AZURE_RG` - The resource group
-* `AZURE_SUBSCRIPTION_ID` - Your subscription ID
-* `AZURE_TENANT_ID` - Your tenant ID
+* An API token for YBA
+* An AWS VPC with one or more subnets
+* A security group for the universe
 
 ## Create your terraform variables file
 
@@ -49,5 +38,5 @@ terraform apply
 If it is successful, you should see an output like this:
 
 ```bash
-
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 ```
