@@ -52,8 +52,26 @@ data "yba_release_version" "release_version" {
 }
 
 # Create a universe
-resource "yba_universe" "azure_universe" {
+resource "yba_universe" "aws_universe" {
   clusters {
+    cloud_list {
+      code = "aws"
+      region_list {
+        dynamic "az_list" {
+          for_each = var.cloud_provider_region_zones
+          iterator = zone
+          content {
+            name      = zone.value["code"]
+            num_nodes = var.universe_number_of_nodes / length(var.cloud_provider_region_zones)
+            subnet    = zone.value["subnet_id"]
+          }
+        }
+        code = var.cloud_provider_region_code
+        uuid = yba_cloud_provider.aws_cloud_provider.regions[0].uuid
+
+      }
+      uuid = yba_cloud_provider.aws_cloud_provider.id
+    }
     cluster_type = "PRIMARY"
     user_intent {
       access_key_code  = data.yba_provider_key.cloud_key.id
