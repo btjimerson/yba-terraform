@@ -101,6 +101,7 @@ No modules.
 | [azuread_application_password.yba_application_password](https://registry.terraform.io/providers/hashicorp/azuread/2.41.0/docs/resources/application_password) | resource |
 | [azuread_service_principal.yba_application_sp](https://registry.terraform.io/providers/hashicorp/azuread/2.41.0/docs/resources/service_principal) | resource |
 | [azurerm_linux_virtual_machine.yba_vm](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_marketplace_agreement.yba_vm_agreement](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/marketplace_agreement) | resource |
 | [azurerm_network_interface.yba_network_interface](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/network_interface) | resource |
 | [azurerm_network_security_group.yba_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/network_security_group) | resource |
 | [azurerm_public_ip.yba_public_ip](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/public_ip) | resource |
@@ -134,11 +135,13 @@ No modules.
 | <a name="input_virtual_machine_size"></a> [virtual\_machine\_size](#input\_virtual\_machine\_size) | The size of the VM for YBA. | `string` | `"Standard_D8s_v3"` | no |
 | <a name="input_virtual_machine_zone"></a> [virtual\_machine\_zone](#input\_virtual\_machine\_zone) | The zone to create the YBA VM in. | `string` | `"1"` | no |
 | <a name="input_vnet_cidr_block"></a> [vnet\_cidr\_block](#input\_vnet\_cidr\_block) | The CIDR block for the virtual network. This should be large enough to hold the YBA and universe subnets. | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the YBA admin | `string` | n/a | yes |
+| <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The username for the YBA admin | `string` | n/a | yes |
 | <a name="input_yba_disk_size"></a> [yba\_disk\_size](#input\_yba\_disk\_size) | The size of disk for the YBA VM (in GB) | `string` | `"100"` | no |
 | <a name="input_yba_disk_type"></a> [yba\_disk\_type](#input\_yba\_disk\_type) | The type of disk for the YBA VM | `string` | `"Premium_LRS"` | no |
 | <a name="input_yba_license_file"></a> [yba\_license\_file](#input\_yba\_license\_file) | The path to the license file for YBA | `string` | n/a | yes |
 | <a name="input_yba_nsg_source_cidr"></a> [yba\_nsg\_source\_cidr](#input\_yba\_nsg\_source\_cidr) | The source CIDR block of external access for the YBA network security group. This is probably your IP address. | `string` | n/a | yes |
-| <a name="input_yba_settings_file"></a> [yba\_settings\_file](#input\_yba\_settings\_file) | The path to the settings file for YBA | `string` | n/a | yes |
+| <a name="input_yba_settings_file"></a> [yba\_settings\_file](#input\_yba\_settings\_file) | The path to the settings file for YBA | `string` | `""` | no |
 | <a name="input_yba_source_image_offer"></a> [yba\_source\_image\_offer](#input\_yba\_source\_image\_offer) | The offer for the YBA VM source image | `string` | `"0001-com-ubuntu-server-jammy"` | no |
 | <a name="input_yba_source_image_publisher"></a> [yba\_source\_image\_publisher](#input\_yba\_source\_image\_publisher) | The publisher of the YBA VM source image | `string` | `"Canonical"` | no |
 | <a name="input_yba_source_image_sku"></a> [yba\_source\_image\_sku](#input\_yba\_source\_image\_sku) | The SKU for the YBA VM source image | `string` | `"22_04-lts-gen2"` | no |
@@ -157,6 +160,6 @@ No modules.
 | <a name="output_provider_resource_group"></a> [provider\_resource\_group](#output\_provider\_resource\_group) | The resource group for the Azure cloud provider. |
 | <a name="output_provider_subscription_id"></a> [provider\_subscription\_id](#output\_provider\_subscription\_id) | The subscription id for the Azure cloud provider. |
 | <a name="output_provider_tenant_id"></a> [provider\_tenant\_id](#output\_provider\_tenant\_id) | The tenant id for the Azure cloud provider. |
-| <a name="output_replicated_url"></a> [replicated\_url](#output\_replicated\_url) | The URL for the Replicated UI. |
-| <a name="output_yba_ip_address"></a> [yba\_ip\_address](#output\_yba\_ip\_address) | The public IP address for YBA. |
+| <a name="output_provider_vnet_id"></a> [provider\_vnet\_id](#output\_provider\_vnet\_id) | The ID of the created vnet for the Azure cloud provider. |
+| <a name="output_yba_url"></a> [yba\_url](#output\_yba\_url) | The URL for YBA. |
 <!-- END_TF_DOCS -->
