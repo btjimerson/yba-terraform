@@ -7,7 +7,7 @@ This repository contains a Terraform configuration to create a single-region AWS
 * A VPC in one region for YBA and universes
 * Public and private subnets in the VPC
 * A security group for the VPC to allow the required YugabyteDB traffic
-* An EC2 instance with Replicated installed to install Yugabyte Platform
+* An EC2 instance with YBA installed
 * A security group for the VPC to allow traffic to universe nodes
 
 Once this configuration is applied, you are ready to install Yugabyte Platform, single-region AWS cloud provider, and the corresponding Universe.

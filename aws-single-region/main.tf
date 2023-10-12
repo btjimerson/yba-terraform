@@ -4,7 +4,17 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    yba = {
+      source  = "yugabyte/yba"
+      version = "0.1.8"
+    }
   }
+}
+
+# Unauthenticated YBA provider
+provider "yba" {
+  alias = "unauthenticated"
+  host  = aws_instance.yba.public_ip
 }
 
 # Create a VPC
@@ -224,17 +234,17 @@ resource "aws_security_group" "yba_sg" {
 
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
-    description = "yba-ui"
+    description = "yba-ui-http"
     from_port   = 80
     protocol    = "tcp"
     to_port     = 80
   }
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
-    description = "replicated-ui"
-    from_port   = 8800
+    description = "yba-ui-https"
+    from_port   = 443
     protocol    = "tcp"
-    to_port     = 8800
+    to_port     = 443
   }
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
@@ -376,10 +386,9 @@ resource "aws_iam_instance_profile" "yba_instance_profile" {
 data "aws_ami" "yba_ami" {
   most_recent = true
   filter {
-    name   = "name"
-    values = ["${var.yba_ami_filter}"]
+    name   = "image-id"
+    values = ["${var.yba_ami_id}"]
   }
-  owners = ["${var.yba_ami_owner}"]
 }
 
 # Create the YBA instace
@@ -393,7 +402,10 @@ resource "aws_instance" "yba" {
   security_groups             = [aws_security_group.yba_sg.id]
   user_data                   = <<-EOL
     #!/bin/bash -xe
-    curl -sSL https://get.replicated.com/docker | sudo bash
+    curl -sSL https://downloads.yugabyte.com/get_clients.sh | bash
+    sudo apt-get update
+    sudo apt-get install -y python3.8
+    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
     EOL
   root_block_device {
     delete_on_termination = true
@@ -408,5 +420,33 @@ resource "aws_instance" "yba" {
     "yb_customer"    = var.customer_tag_value
     "yb_salesregion" = var.sales_region_tag_value
   }
+}
+
+# Wait 60 seconds for python to finish installing
+resource "time_sleep" "wait_2_minutes" {
+  depends_on      = [aws_instance.yba]
+  create_duration = "120s"
+}
+
+# YBA Installer
+resource "yba_installer" "yba" {
+  depends_on                = [time_sleep.wait_2_minutes]
+  provider                  = yba.unauthenticated
+  ssh_host_ip               = aws_instance.yba.public_ip
+  ssh_user                  = var.ssh_user
+  yba_license_file          = var.yba_license_file
+  application_settings_file = var.yba_settings_file == "" ? null : var.yba_settings_file
+  yba_version               = var.yba_version
+  ssh_private_key_file_path = var.ssh_private_key_path
+}
+
+# Admin user for YBA
+# Make sure YB_CUSTOMER_PASSWORD environment variable is set
+resource "yba_customer_resource" "yba_admin" {
+  depends_on = [yba_installer.yba]
+  provider   = yba.unauthenticated
+  code       = "admin"
+  email      = var.yba_admin_email
+  name       = var.yba_admin_name
 }
 
