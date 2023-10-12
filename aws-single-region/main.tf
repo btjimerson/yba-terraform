@@ -147,28 +147,28 @@ resource "aws_security_group" "universe_sg" {
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    description = "yedis-api"
+    description = "yedis-http"
     from_port   = 11000
     protocol    = "tcp"
     to_port     = 11000
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    description = "ycql-api"
+    description = "ycql-http"
     from_port   = 12000
     protocol    = "tcp"
     to_port     = 12000
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    description = "ysql-api"
+    description = "ysql-http"
     from_port   = 13000
     protocol    = "tcp"
     to_port     = 13000
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    description = "prometheus-metrics"
+    description = "node-exporter"
     from_port   = 9300
     protocol    = "tcp"
     to_port     = 9300
