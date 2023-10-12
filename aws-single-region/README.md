@@ -31,6 +31,8 @@ And edit `myvars.auto.tfvars` to set the variables correctly.   ``
 
 ## Installation
 
+First, set an environment variable called `YB_CUSTOMER_PASSWORD`. This will be the password for the YBA admin user, so it needs to follow the password rules in YBA.
+
 Once you have the variables defined and have renamed the file `variables.tfvars.example` to something like `myvars.auto.tfvars`, you can apply the configuration as usual:
 
 ```
