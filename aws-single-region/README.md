@@ -24,8 +24,10 @@ The following must be done manually prior to applying the configuration:
 ## Create your terraform variables file
 The easiest way to set the required variables is to use `terraform-docs`
 ```bash
-terraform-docs tfvars hcl .
+terraform-docs tfvars hcl . > myvars.auto.tfvars
 ```
+
+And edit `myvars.auto.tfvars` to set the variables correctly.   ``
 
 ## Installation
 
@@ -38,29 +40,25 @@ terraform apply
 If it is successful, you should see an output like this:
 
 ```
-Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 22 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-region_1_name = "us-east-2"
-region_1_public_subnet_id = "subnet-0ac609de8a6c12430"
-region_1_public_zone = "us-east-2a"
-region_1_security_group_id = "sg-0a49506d7c8f1f594"
-region_1_vpc_id = "vpc-040f9cf14bf52bc80"
-region_2_name = "eu-west-2"
-region_2_public_subnet_id = "subnet-04d6273732e614826"
-region_2_public_zone = "eu-west-2a"
-region_2_security_group_id = "sg-0e57bd9f0bfa09e1a"
-region_2_vpc_id = "vpc-0b96401d1d515448b"
-region_3_name = "ap-southeast-1"
-region_3_public_subnet_id = "subnet-0719e578f24c549bc"
-region_3_public_zone = "ap-southeast-1a"
-region_3_security_group_id = "sg-03a7d99dc92ee2d38"
-region_3_vpc_id = "vpc-0a2da88cd7e424d20"
-yba_replicated_url = "http://3.145.18.72:8800"
+public_subnets = [
+  "us-east-2a: subnet-060910ce88115a18d",
+  "us-east-2b: subnet-09b79808bedb8b01d",
+  "us-east-2c: subnet-04e1b4848ad28a813",
+]
+region_name = "us-east-2"
+universe_security_group_id = "sg-03b2c582a07563a5b"
+vpc_id = "vpc-0394c47419c02cc1d"
+yba_api_token = <sensitive>
+yba_ip_address = "18.227.89.83"
+yba_url = "https://18.227.89.83"
+
 ```
 
-You can open the output for `yba_replicated_url` in a browser and continue installation as usual (note that it may take a few minutes for Replicated to install and start).  The other outputs can be used when creating the AWS cloud provider.
+These outputs can be used to configure a cloud provider for AWS in YBA, either through the UI or another Terraform configuration.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
