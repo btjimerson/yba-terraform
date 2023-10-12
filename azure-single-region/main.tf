@@ -202,6 +202,13 @@ resource "azurerm_subnet_network_security_group_association" "subnet_nsg_associa
   network_security_group_id = azurerm_network_security_group.yba_nsg.id
 }
 
+# Accept marketplace terms for VM image
+resource "azurerm_marketplace_agreement" "yba_vm_agreement" {
+  offer     = var.yba_source_image_offer
+  plan      = var.yba_source_image_sku
+  publisher = var.yba_source_image_publisher
+}
+
 # Script to run on startup
 locals {
   user_data_script = <<-EOL
@@ -239,6 +246,12 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
     version   = var.yba_source_image_version
   }
 
+  plan {
+    publisher = var.yba_source_image_publisher
+    name      = var.yba_source_image_sku
+    product   = var.yba_source_image_offer
+  }
+
   tags = {
     yb_owner    = var.owner_tag_value
     yb_dept     = var.department_tag_value
@@ -249,6 +262,7 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
 
 # YBA Installer
 resource "yba_installer" "yba" {
+  depends_on                = [azurerm_linux_virtual_machine.yba_vm]
   provider                  = yba.unauthenticated
   ssh_host_ip               = azurerm_public_ip.yba_public_ip.ip_address
   ssh_user                  = var.admin_username
@@ -260,9 +274,9 @@ resource "yba_installer" "yba" {
 
 # Admin user for YBA
 # Make sure YB_CUSTOMER_PASSWORD environment variable is set
-resource "yba_customer_resource" "yba_admin" {
-  provider = yba.unauthenticated
-  code     = "admin"
-  email    = var.yba_admin_email
-  name     = var.yba_admin_name
-}
+#resource "yba_customer_resource" "yba_admin" {
+#  provider = yba.unauthenticated
+#  code     = "admin"
+#  email    = var.yba_admin_email
+#  name     = var.yba_admin_name
+#}

@@ -39,7 +39,7 @@ output "provider_tenant_id" {
   value       = var.tenant_id
 }
 
-output "yba_ip_address" {
-  description = "The public IP address for YBA."
-  value       = azurerm_public_ip.yba_public_ip.ip_address
+output "yba_url" {
+  description = "The URL for YBA."
+  value       = "https://${azurerm_public_ip.yba_public_ip.ip_address}"
 }
