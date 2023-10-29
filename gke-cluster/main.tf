@@ -79,7 +79,7 @@ resource "google_container_node_pool" "primary_node_pool" {
 
 # Kubeconfig
 module "gke_auth" {
-  source     = "terraform-google-modules/kubernetes-engine/google//modules/auth"
+  source     = "terraform-google-modules/kubernetes-engine/google/modules/auth"
   depends_on = [google_container_cluster.cluster]
 
   project_id   = var.project_id
