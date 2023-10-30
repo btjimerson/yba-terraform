@@ -4,5 +4,6 @@ output "gke_cluster_endpoint" {
 }
 output "yba_hostname" {
   description = "The hostname or IP address of YBA"
-  value       = module.yba.yba_hostname
+  value       = "https://${module.yba.yba_hostname}"
 }
+

@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+locals {
+  cluster_name = "${var.resource_prefix}-${var.region}-gke"
+}
+
 # Get the client config
 data "google_client_config" "provider" {}
 
@@ -15,7 +19,7 @@ resource "google_container_cluster" "gke_cluster" {
   deletion_protection      = false
   initial_node_count       = 1
   location                 = var.region
-  name                     = "${var.resource_prefix}-${var.region}-gke"
+  name                     = local.cluster_name
   remove_default_node_pool = true
   network                  = var.vpc_self_link
   subnetwork               = var.subnet_self_link

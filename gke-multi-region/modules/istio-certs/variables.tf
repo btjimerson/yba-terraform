@@ -2,11 +2,11 @@ variable "istio_version" {
   description = "The version of Istio to use"
   type        = string
 }
-variable "istio_cloud_prefix" {
-  description = "The name of the cloud prefix in Istio"
+variable "cluster_1_name" {
+  description = "The name of the 1st cloud"
   type        = string
 }
-variable "istio_on_prem_prefix" {
-  description = "The name of the on-prem cluster in Istio"
+variable "cluster_2_name" {
+  description = "The name of the 2nd cloud"
   type        = string
 }

@@ -6,6 +6,10 @@ output "cluster_endpoint" {
   description = "The endpoint of the GKE cluster"
   value       = google_container_cluster.gke_cluster.endpoint
 }
+output "cluster_name" {
+  description = "The name of the cluster created"
+  value       = local.cluster_name
+}
 output "cluster_token" {
   description = "A token to use for the Kubernetes provider"
   value       = data.google_client_config.provider.access_token

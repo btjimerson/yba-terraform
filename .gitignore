@@ -1,7 +1,6 @@
 *.tfvars
 *.tfstate*
 .terraform*
-
+certs/
 .swp
-
 .DS_Store

@@ -4,6 +4,5 @@ output "vpc_self_link" {
 }
 output "subnets_self_link" {
   description = "The self link to the subnets created"
-  #value       = [for subnet in google_compute_subnetwork.subnets : "${subnet.self_link}"]
-  value = google_compute_subnetwork.subnets.*.self_link
+  value       = google_compute_subnetwork.subnets.*.self_link
 }

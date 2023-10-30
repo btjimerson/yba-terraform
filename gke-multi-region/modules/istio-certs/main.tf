@@ -7,8 +7,8 @@ resource "null_resource" "create_certs" {
     mkdir -p certs
 		cd certs
 		make -f ../istio-${var.istio_version}/tools/certs/Makefile.selfsigned.mk root-ca
-		make -f ../istio-${var.istio_version}/tools/certs/Makefile.selfsigned.mk ${var.istio_cloud_prefix}-cacerts
-		make -f ../istio-${var.istio_version}/tools/certs/Makefile.selfsigned.mk ${var.istio_on_prem_prefix}-cacerts
+		make -f ../istio-${var.istio_version}/tools/certs/Makefile.selfsigned.mk ${var.cluster_1_name}-cacerts
+		make -f ../istio-${var.istio_version}/tools/certs/Makefile.selfsigned.mk ${var.cluster_2_name}-cacerts
     popd
     rm -rf ${path.module}/istio-${var.istio_version}
 	  EOT
@@ -16,68 +16,68 @@ resource "null_resource" "create_certs" {
 }
 
 // Read certs
-data "external" "cloud_cluster_ca_cert" {
+data "external" "cluster_1_ca_cert" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_cloud_prefix}/ca-cert.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_1_name}/ca-cert.pem)\" '{$content}'"
   ]
 }
-data "external" "cloud_cluster_ca_key" {
+data "external" "cluster_1_ca_key" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_cloud_prefix}/ca-key.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_1_name}/ca-key.pem)\" '{$content}'"
   ]
 }
-data "external" "cloud_cluster_root_cert" {
+data "external" "cluster_1_root_cert" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_cloud_prefix}/root-cert.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_1_name}/root-cert.pem)\" '{$content}'"
   ]
 }
-data "external" "cloud_cluster_cert_chain" {
+data "external" "cluster_1_cert_chain" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_cloud_prefix}/cert-chain.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_1_name}/cert-chain.pem)\" '{$content}'"
   ]
 }
-data "external" "on_prem_cluster_ca_cert" {
+data "external" "cluster_2_ca_cert" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_on_prem_prefix}/ca-cert.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_2_name}/ca-cert.pem)\" '{$content}'"
   ]
 }
-data "external" "on_prem_cluster_ca_key" {
+data "external" "cluster_2_ca_key" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_on_prem_prefix}/ca-key.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_2_name}/ca-key.pem)\" '{$content}'"
   ]
 }
-data "external" "on_prem_cluster_root_cert" {
+data "external" "cluster_2_root_cert" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_on_prem_prefix}/root-cert.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_2_name}/root-cert.pem)\" '{$content}'"
   ]
 }
-data "external" "on_prem_cluster_cert_chain" {
+data "external" "cluster_2_cert_chain" {
   depends_on = [null_resource.create_certs]
   program = [
     "sh",
     "-c",
-    "jq -n --arg content \"$(cat ${path.module}/certs/${var.istio_on_prem_prefix}/cert-chain.pem)\" '{$content}'"
+    "jq -n --arg content \"$(cat ${path.module}/certs/${var.cluster_2_name}/cert-chain.pem)\" '{$content}'"
   ]
 }
 

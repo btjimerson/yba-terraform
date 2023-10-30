@@ -6,8 +6,20 @@ variable "department_tag_value" {
   description = "The value for the department tag for resources"
   type        = string
 }
+variable "istio_mesh_name" {
+  description = "The mesh name for Istio"
+  type        = string
+}
+variable "istio_namespace" {
+  description = "The root namespace for Istio"
+  type        = string
+}
 variable "gcp_project_id" {
   description = "The GCP project ID to use"
+  type        = string
+}
+variable "istio_version" {
+  description = "The version of Istio to install"
   type        = string
 }
 variable "kubernetes_version" {
@@ -78,7 +90,7 @@ variable "yba_namespace" {
   type        = string
 }
 variable "yba_pull_secret" {
-  description = "The pull secret for YBA (not base 64 encoded)"
+  description = "The pull secret for YBA (base 64 encoded)"
   type        = string
 }
 variable "yba_version" {

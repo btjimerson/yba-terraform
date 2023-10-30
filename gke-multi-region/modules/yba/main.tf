@@ -16,16 +16,6 @@ resource "kubernetes_namespace" "yba_namespace" {
   }
 }
 
-// Get the IP address for YBA
-data "external" "yba_hostname" {
-  depends_on = [helm_release.yba]
-  program = [
-    "sh",
-    "-c",
-    "jq -n --arg content \"$(kubectl get svc yugaware-yugaware-ui -n ${var.yba_namespace} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\" '{$content}'"
-  ]
-}
-
 # Pull secret for YBA
 resource "kubernetes_secret" "yugabyte_pull_secret" {
   depends_on = [kubernetes_namespace.yba_namespace]
@@ -34,7 +24,7 @@ resource "kubernetes_secret" "yugabyte_pull_secret" {
     namespace = var.yba_namespace
   }
   data = {
-    ".dockerconfigjson" = "${var.yba_pull_secret}"
+    ".dockerconfigjson" = var.yba_pull_secret
   }
   type = "kubernetes.io/dockerconfigjson"
 }
@@ -43,13 +33,37 @@ resource "kubernetes_secret" "yugabyte_pull_secret" {
 resource "helm_release" "yba" {
   depends_on = [
     kubernetes_namespace.yba_namespace,
-    //kubernetes_secret.yugabyte_pull_secret
+    kubernetes_secret.yugabyte_pull_secret
   ]
   name       = "yugaware"
   namespace  = var.yba_namespace
   version    = var.yba_version
   repository = "https://charts.yugabyte.com"
   chart      = "yugaware"
+  set {
+    name  = "istioCompatibility.enabled"
+    value = true
+  }
+  set {
+    name  = "tls.enabled"
+    value = true
+  }
+}
+
+// Wait for 120 seconds for the LB IP address to be created
+resource "time_sleep" "wait_for_120_seconds" {
+  depends_on      = [helm_release.yba]
+  create_duration = "120s"
+}
+
+// Get the IP address for YBA
+data "external" "yba_hostname" {
+  depends_on = [time_sleep.wait_for_120_seconds]
+  program = [
+    "sh",
+    "-c",
+    "jq -n --arg content \"$(kubectl get svc yugaware-yugaware-ui -n ${var.yba_namespace} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\" '{$content}'"
+  ]
 }
 
 # Create the universe management namespace

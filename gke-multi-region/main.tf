@@ -20,9 +20,17 @@ provider "google" {
 }
 
 provider "kubernetes" {
+  alias                  = "gke_cluster_1"
   cluster_ca_certificate = base64decode(module.gke_clusters[0].cluster_ca_certificate)
   host                   = "https://${module.gke_clusters[0].cluster_endpoint}"
   token                  = module.gke_clusters[0].cluster_token
+}
+
+provider "kubernetes" {
+  alias                  = "gke_cluster_2"
+  cluster_ca_certificate = base64decode(module.gke_clusters[1].cluster_ca_certificate)
+  host                   = "https://${module.gke_clusters[1].cluster_endpoint}"
+  token                  = module.gke_clusters[1].cluster_token
 }
 
 provider "helm" {
@@ -61,14 +69,17 @@ module "gke_clusters" {
 
 # Install YBA
 module "yba" {
-  source                                   = "./modules/yba"
+  source = "./modules/yba"
+  providers = {
+    kubernetes = kubernetes.gke_cluster_1
+  }
   depends_on                               = [module.gke_clusters]
   universe_management_cluster_role         = var.universe_management_cluster_role
   universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
   universe_management_namespace            = var.universe_management_namespace
   universe_management_sa                   = var.universe_management_sa
   yba_namespace                            = var.yba_namespace
-  yba_pull_secret                          = base64encode(var.yba_pull_secret)
+  yba_pull_secret                          = var.yba_pull_secret
   yba_version                              = var.yba_version
 }
 
