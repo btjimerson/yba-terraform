@@ -69,7 +69,7 @@ No requirements.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_gke_auth"></a> [gke\_auth](#module\_gke\_auth) | terraform-google-modules/kubernetes-engine/google//modules/auth | n/a |
+| <a name="module_gke_auth"></a> [gke\_auth](#module\_gke\_auth) | terraform-google-modules/kubernetes-engine/google/modules/auth | n/a |
 | <a name="module_yba"></a> [yba](#module\_yba) | ./modules/yba | n/a |
 
 ## Resources
