@@ -70,6 +70,9 @@ No resources.
 | <a name="input_customer_tag_value"></a> [customer\_tag\_value](#input\_customer\_tag\_value) | The value for the customer tag for resources | `string` | n/a | yes |
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
 | <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | The GCP project ID to use | `string` | n/a | yes |
+| <a name="input_istio_mesh_name"></a> [istio\_mesh\_name](#input\_istio\_mesh\_name) | The mesh name for Istio | `string` | n/a | yes |
+| <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | The root namespace for Istio | `string` | n/a | yes |
+| <a name="input_istio_version"></a> [istio\_version](#input\_istio\_version) | The version of Istio to install | `string` | n/a | yes |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | The version of Kubernetes version | `string` | n/a | yes |
 | <a name="input_node_machine_type"></a> [node\_machine\_type](#input\_node\_machine\_type) | The machine type to use for the nodes | `string` | n/a | yes |
 | <a name="input_number_of_nodes"></a> [number\_of\_nodes](#input\_number\_of\_nodes) | The initial number of nodes in the node pool (this is per availability zone) | `number` | n/a | yes |
@@ -86,7 +89,7 @@ No resources.
 | <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the superadmin user | `string` | n/a | yes |
 | <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The name of the superadmin user | `string` | n/a | yes |
 | <a name="input_yba_namespace"></a> [yba\_namespace](#input\_yba\_namespace) | The name of the namespace for YBA | `string` | n/a | yes |
-| <a name="input_yba_pull_secret"></a> [yba\_pull\_secret](#input\_yba\_pull\_secret) | The pull secret for YBA (not base 64 encoded) | `string` | n/a | yes |
+| <a name="input_yba_pull_secret"></a> [yba\_pull\_secret](#input\_yba\_pull\_secret) | The pull secret for YBA (base 64 encoded) | `string` | n/a | yes |
 | <a name="input_yba_version"></a> [yba\_version](#input\_yba\_version) | The version of YBA to install | `string` | n/a | yes |
 
 ## Outputs
