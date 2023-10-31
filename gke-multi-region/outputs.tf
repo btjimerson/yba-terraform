@@ -6,4 +6,9 @@ output "yba_hostname" {
   description = "The hostname or IP address of YBA"
   value       = "https://${module.yba.yba_hostname}"
 }
+output "yba_api_token" {
+  description = "The API token for the YBA superadmin"
+  sensitive   = true
+  value       = module.yba_admin_user.yba_api_token
+}
 

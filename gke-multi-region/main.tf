@@ -1,5 +1,17 @@
 terraform {
   required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "5.3.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "2.23.0"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.11.0"
+    }
     yba = {
       source  = "yugabyte/yba"
       version = "0.1.9"
@@ -74,6 +86,10 @@ module "yba" {
     kubernetes = kubernetes.gke_cluster_1
   }
   depends_on                               = [module.gke_clusters]
+  enable_yba_tls                           = var.enable_yba_tls
+  gke_cluster_name                         = module.gke_clusters[0].cluster_name
+  gcp_project_id                           = var.gcp_project_id
+  gcp_region                               = var.subnets[0].region
   universe_management_cluster_role         = var.universe_management_cluster_role
   universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
   universe_management_namespace            = var.universe_management_namespace
@@ -81,15 +97,4 @@ module "yba" {
   yba_namespace                            = var.yba_namespace
   yba_pull_secret                          = var.yba_pull_secret
   yba_version                              = var.yba_version
-}
-
-# Configure YBA
-module "yba-universe" {
-  source     = "./modules/yba-universe"
-  depends_on = [module.yba]
-  providers = {
-    yba.unauthenticated = yba.unauthenticated
-  }
-  yba_admin_email = var.yba_admin_email
-  yba_admin_name  = var.yba_admin_name
 }

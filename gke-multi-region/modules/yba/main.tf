@@ -9,6 +9,13 @@ terraform {
   }
 }
 
+# Get the kubeconfig
+resource "null_resource" "cluster_kubeconfig" {
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.gke_cluster_name} --region ${var.gcp_region} --project ${var.gcp_project_id}"
+  }
+}
+
 # Namespace for YBA
 resource "kubernetes_namespace" "yba_namespace" {
   metadata {
@@ -46,19 +53,19 @@ resource "helm_release" "yba" {
   }
   set {
     name  = "tls.enabled"
-    value = true
+    value = var.enable_yba_tls
   }
 }
 
-// Wait for 120 seconds for the LB IP address to be created
-resource "time_sleep" "wait_for_120_seconds" {
+// Wait for 60 seconds for the LB IP address to be created
+resource "time_sleep" "wait_for_60_seconds" {
   depends_on      = [helm_release.yba]
-  create_duration = "120s"
+  create_duration = "60s"
 }
 
 // Get the IP address for YBA
 data "external" "yba_hostname" {
-  depends_on = [time_sleep.wait_for_120_seconds]
+  depends_on = [time_sleep.wait_for_60_seconds]
   program = [
     "sh",
     "-c",

@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.1"
+    }
+    external = {
+      source  = "hashicorp/external"
+      version = "2.3.1"
+    }
+  }
+}
+
 // Create self-signed certs for Istio multicluster
 resource "null_resource" "create_certs" {
   provisioner "local-exec" {

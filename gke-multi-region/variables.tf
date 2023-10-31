@@ -6,20 +6,13 @@ variable "department_tag_value" {
   description = "The value for the department tag for resources"
   type        = string
 }
-variable "istio_mesh_name" {
-  description = "The mesh name for Istio"
-  type        = string
-}
-variable "istio_namespace" {
-  description = "The root namespace for Istio"
-  type        = string
+variable "enable_yba_tls" {
+  description = "Whether or not to enable TLS for YBA"
+  type        = bool
+  default     = true
 }
 variable "gcp_project_id" {
   description = "The GCP project ID to use"
-  type        = string
-}
-variable "istio_version" {
-  description = "The version of Istio to install"
   type        = string
 }
 variable "kubernetes_version" {
@@ -32,10 +25,6 @@ variable "node_machine_type" {
 }
 variable "number_of_nodes" {
   description = "The initial number of nodes in the node pool (this is per availability zone)"
-  type        = number
-}
-variable "number_of_subnets" {
-  description = "The number of subnets to create"
   type        = number
 }
 variable "owner_tag_value" {
@@ -76,14 +65,6 @@ variable "subnets" {
     cidr_range = string
     region     = string
   }))
-}
-variable "yba_admin_email" {
-  description = "The email address for the superadmin user"
-  type        = string
-}
-variable "yba_admin_name" {
-  description = "The name of the superadmin user"
-  type        = string
 }
 variable "yba_namespace" {
   description = "The name of the namespace for YBA"

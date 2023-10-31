@@ -1,8 +1,23 @@
 terraform {
   required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.1"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "2.3.1"
+    }
+  }
+}
+
+//This module is all local-exec calls because Istio
+//doesn't have a Terraform provider or Helm chart to setup multicluster
+
+// Set the kubeconfig
+resource "null_resource" "set_gke_creds" {
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.gke_cluster_name} --region ${var.gcp_region} --project ${var.gcp_project_id}"
   }
 }
 
@@ -13,13 +28,15 @@ resource "null_resource" "download_istio" {
   }
 }
 
-// Create istio root namespace
-resource "kubernetes_namespace" "istio_namespace" {
-  metadata {
-    name = var.istio_namespace
-    labels = {
-      "topology.istio.io/network" = var.istio_network_name
-    }
+// Create Istio namespace
+resource "null_resource" "create_istio_namespace" {
+  depends_on = [null_resource.set_gke_creds]
+  provisioner "local-exec" {
+    command = <<-EOT
+      kubectl create namespace ${var.istio_namespace}
+      kubectl label namespace ${var.istio_namespace} topology.istio.io/network=${var.istio_network_name} --overwrite=true
+    EOT
+
   }
 }
 
@@ -27,7 +44,7 @@ resource "kubernetes_namespace" "istio_namespace" {
 resource "null_resource" "istio_certs_secret" {
   depends_on = [
     null_resource.set_gke_creds,
-    kubernetes_namespace.istio_namespace
+    null_resource.create_istio_namespace
   ]
   provisioner "local-exec" {
     command = <<-EOT
@@ -121,7 +138,7 @@ resource "null_resource" "remove_istio" {
     null_resource.expose_istio_services
   ]
   provisioner "local-exec" {
-    command = "rm -rf istio-${var.istio_version}"
+    command = "sh" //"rm -rf istio-${var.istio_version}"
   }
 }
 
