@@ -15,6 +15,11 @@ variable "gcp_project_id" {
   description = "The GCP project ID to use"
   type        = string
 }
+variable "istio_namespace" {
+  description = "The name of the namespace for Istio"
+  type        = string
+  default     = "istio-system"
+}
 variable "kubernetes_version" {
   description = "The version of Kubernetes version"
   type        = string
@@ -43,16 +48,8 @@ variable "task_tag_value" {
   description = "The value for the task tag for resources"
   type        = string
 }
-variable "universe_management_namespace" {
-  description = "The namespace for the universement management sa and role"
-  type        = string
-}
 variable "universe_management_sa" {
   description = "The name of the universe management service account"
-  type        = string
-}
-variable "universe_management_cluster_role" {
-  description = "The name of the universe management cluster role"
   type        = string
 }
 variable "universe_management_cluster_role_binding" {

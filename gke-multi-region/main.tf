@@ -79,22 +79,44 @@ module "gke_clusters" {
   vpc_self_link      = module.google_vpc.vpc_self_link
 }
 
-# Install YBA
+# Create YBA prerequisites on cluster 1
+module "yba_prerequisites_cluster_1" {
+  source     = "./modules/yba-prerequisites"
+  depends_on = [module.gke_clusters]
+  providers = {
+    kubernetes = kubernetes.gke_cluster_1
+  }
+  istio_namespace                          = var.istio_namespace
+  universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
+  universe_management_sa                   = var.universe_management_sa
+  yba_namespace                            = var.yba_namespace
+}
+
+# Create YBA prerequisites on cluster 2
+module "yba_prerequisites_cluster_2" {
+  source     = "./modules/yba-prerequisites"
+  depends_on = [module.gke_clusters]
+  providers = {
+    kubernetes = kubernetes.gke_cluster_2
+  }
+  istio_namespace                          = var.istio_namespace
+  universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
+  universe_management_sa                   = var.universe_management_sa
+  yba_namespace                            = var.yba_namespace
+}
+
+# Install YBA on cluster 1
 module "yba" {
   source = "./modules/yba"
   providers = {
     kubernetes = kubernetes.gke_cluster_1
   }
-  depends_on                               = [module.gke_clusters]
-  enable_yba_tls                           = var.enable_yba_tls
-  gke_cluster_name                         = module.gke_clusters[0].cluster_name
-  gcp_project_id                           = var.gcp_project_id
-  gcp_region                               = var.subnets[0].region
-  universe_management_cluster_role         = var.universe_management_cluster_role
-  universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
-  universe_management_namespace            = var.universe_management_namespace
-  universe_management_sa                   = var.universe_management_sa
-  yba_namespace                            = var.yba_namespace
-  yba_pull_secret                          = var.yba_pull_secret
-  yba_version                              = var.yba_version
+  depends_on       = [module.yba_prerequisites_cluster_1]
+  enable_yba_tls   = var.enable_yba_tls
+  gke_cluster_name = module.gke_clusters[0].cluster_name
+  gcp_project_id   = var.gcp_project_id
+  gcp_region       = var.subnets[0].region
+  yba_namespace    = var.yba_namespace
+  yba_pull_secret  = var.yba_pull_secret
+  yba_version      = var.yba_version
 }

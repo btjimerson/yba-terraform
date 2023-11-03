@@ -138,7 +138,7 @@ resource "null_resource" "remove_istio" {
     null_resource.expose_istio_services
   ]
   provisioner "local-exec" {
-    command = "sh" //"rm -rf istio-${var.istio_version}"
+    command = "rm -rf istio-${var.istio_version}"
   }
 }
 

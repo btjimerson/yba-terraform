@@ -3,4 +3,5 @@
 .terraform*
 certs/
 .swp
+.trunk
 .DS_Store

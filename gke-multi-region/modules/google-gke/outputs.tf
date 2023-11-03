@@ -10,6 +10,10 @@ output "cluster_name" {
   description = "The name of the cluster created"
   value       = local.cluster_name
 }
+output "cluster_region" {
+  description = "The region that the cluster belongs to"
+  value       = var.region
+}
 output "cluster_token" {
   description = "A token to use for the Kubernetes provider"
   value       = data.google_client_config.provider.access_token
