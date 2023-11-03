@@ -10,6 +10,10 @@ variable "universe_management_cluster_role_binding" {
   description = "The name of the universe management cluster role binding"
   type        = string
 }
+variable "universe_namespace" {
+  description = "The name of the namespace for universe pods"
+  type        = string
+}
 variable "yba_namespace" {
   description = "The name of the namespace for YBA"
   type        = string

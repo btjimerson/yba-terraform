@@ -64,3 +64,13 @@ resource "kubernetes_secret" "universe_management_sa_token" {
   }
   type = "kubernetes.io/service-account-token"
 }
+
+# Namespace for the universe pods
+resource "kubernetes_namespace" "universe_namespace" {
+  metadata {
+    name = var.universe_namespace
+    labels = {
+      istio-injection = "enabled"
+    }
+  }
+}

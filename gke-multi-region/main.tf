@@ -89,6 +89,7 @@ module "yba_prerequisites_cluster_1" {
   istio_namespace                          = var.istio_namespace
   universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
   universe_management_sa                   = var.universe_management_sa
+  universe_namespace                       = var.subnets[1].region
   yba_namespace                            = var.yba_namespace
 }
 
@@ -102,6 +103,7 @@ module "yba_prerequisites_cluster_2" {
   istio_namespace                          = var.istio_namespace
   universe_management_cluster_role_binding = var.universe_management_cluster_role_binding
   universe_management_sa                   = var.universe_management_sa
+  universe_namespace                       = var.subnets[1].region
   yba_namespace                            = var.yba_namespace
 }
 
