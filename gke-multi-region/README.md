@@ -60,6 +60,8 @@ No providers.
 | <a name="module_gke_clusters"></a> [gke\_clusters](#module\_gke\_clusters) | ./modules/google-gke | n/a |
 | <a name="module_google_vpc"></a> [google\_vpc](#module\_google\_vpc) | ./modules/google-vpc | n/a |
 | <a name="module_yba"></a> [yba](#module\_yba) | ./modules/yba | n/a |
+| <a name="module_yba_prerequisites_cluster_1"></a> [yba\_prerequisites\_cluster\_1](#module\_yba\_prerequisites\_cluster\_1) | ./modules/yba-prerequisites | n/a |
+| <a name="module_yba_prerequisites_cluster_2"></a> [yba\_prerequisites\_cluster\_2](#module\_yba\_prerequisites\_cluster\_2) | ./modules/yba-prerequisites | n/a |
 
 ## Resources
 
@@ -73,6 +75,7 @@ No resources.
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
 | <a name="input_enable_yba_tls"></a> [enable\_yba\_tls](#input\_enable\_yba\_tls) | Whether or not to enable TLS for YBA | `bool` | `true` | no |
 | <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | The GCP project ID to use | `string` | n/a | yes |
+| <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | The name of the namespace for Istio | `string` | `"istio-system"` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | The version of Kubernetes version | `string` | n/a | yes |
 | <a name="input_node_machine_type"></a> [node\_machine\_type](#input\_node\_machine\_type) | The machine type to use for the nodes | `string` | n/a | yes |
 | <a name="input_number_of_nodes"></a> [number\_of\_nodes](#input\_number\_of\_nodes) | The initial number of nodes in the node pool (this is per availability zone) | `number` | n/a | yes |
@@ -81,9 +84,7 @@ No resources.
 | <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | A list of subnets to create | <pre>list(object({<br>    cidr_range = string<br>    region     = string<br>  }))</pre> | n/a | yes |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
-| <a name="input_universe_management_cluster_role"></a> [universe\_management\_cluster\_role](#input\_universe\_management\_cluster\_role) | The name of the universe management cluster role | `string` | n/a | yes |
 | <a name="input_universe_management_cluster_role_binding"></a> [universe\_management\_cluster\_role\_binding](#input\_universe\_management\_cluster\_role\_binding) | The name of the universe management cluster role binding | `string` | n/a | yes |
-| <a name="input_universe_management_namespace"></a> [universe\_management\_namespace](#input\_universe\_management\_namespace) | The namespace for the universement management sa and role | `string` | n/a | yes |
 | <a name="input_universe_management_sa"></a> [universe\_management\_sa](#input\_universe\_management\_sa) | The name of the universe management service account | `string` | n/a | yes |
 | <a name="input_yba_namespace"></a> [yba\_namespace](#input\_yba\_namespace) | The name of the namespace for YBA | `string` | n/a | yes |
 | <a name="input_yba_pull_secret"></a> [yba\_pull\_secret](#input\_yba\_pull\_secret) | The pull secret for YBA (base 64 encoded) | `string` | n/a | yes |
@@ -94,6 +95,6 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_gke_cluster_endpoint"></a> [gke\_cluster\_endpoint](#output\_gke\_cluster\_endpoint) | The IP address of the GKE cluster |
-| <a name="output_yba_api_token"></a> [yba\_api\_token](#output\_yba\_api\_token) | The API token for the YBA superadmin |
+| <a name="output_update_kubeconfig_commands"></a> [update\_kubeconfig\_commands](#output\_update\_kubeconfig\_commands) | Run these commands to update your kubeconfig |
 | <a name="output_yba_hostname"></a> [yba\_hostname](#output\_yba\_hostname) | The hostname or IP address of YBA |
 <!-- END_TF_DOCS -->
