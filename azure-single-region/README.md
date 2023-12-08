@@ -10,7 +10,7 @@ This repository contains a Terraform configuration to create a single-region Azu
 * A security group to allow the required traffic to YBA.
 * A public IP address for the YBA VM.
 * One or more subnets in the virtual network for YB universes.
-* A virtual machine with Replicated installed to install YugabyteDB Anywhere. This VM will also have `ysqlsh` and `ycqlsh` installed in the user's home directory. You can SSH into this VM and then access universe nodes from here.
+* A virtual machine with YugabyteDB Anywhere installed. This VM will also have `ysqlsh` and `ycqlsh` installed in the user's home directory. You can SSH into this VM and then access universe nodes from here.
 * An application registration and client secret to use for the cloud provider config.
 
 Once this configuration is applied, you are ready to install YugabyteDB Anywhere, a single-region azure cloud provider, and the corresponding Universe.
@@ -57,14 +57,13 @@ provider_region_subnet_names = [
 ]
 provider_region_virtual_network_name = "bjimerson-yba-demo-vnet"
 provider_resource_group = "bjimerson-yba-demo-rg"
-provider_subscription_id = "34fb074a-bd59-4da6-a5c0-e5ba86dd21f2"
-provider_tenant_id = "810c029b-d266-4f13-a23a-54b66cfb5f83"
-replicated_url = "http://20.51.244.83:8800"
+provider_subscription_id = "abcdefghijklmnop"
+provider_tenant_id = "abcdefghijklmnop"
 yba_ip_address = "20.51.244.83"
 
 ```
 
-You can open the output for `replicated_url` in a browser and continue installation as usual (note that it may take a few minutes for Replicated to install and start).
+You can open the output for `yba_ip_address` in a browser and create an Administrator user as usual.
 
 You can use the outputs that start with `provider_` to configure your cloud provider for Azure. Note that the client secret is considered sensitive. To view the value, you can output the values as JSON:
 
