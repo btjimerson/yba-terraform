@@ -282,6 +282,7 @@ resource "azurerm_resource_group" "universe_resource_groups" {
 # VNETs for universes
 resource "azurerm_virtual_network" "universe_vnets" {
   count               = length(var.universe_resource_groups)
+  depends_on          = azurerm_resource_group.universe_resource_groups
   name                = "${azurerm_resource_group.universe_resource_groups[count.index].name}-vnet"
   resource_group_name = azurerm_resource_group.universe_resource_groups[count.index].name
   location            = azurerm_resource_group.universe_resource_groups[count.index].location

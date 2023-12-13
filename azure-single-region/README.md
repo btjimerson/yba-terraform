@@ -111,6 +111,7 @@ No modules.
 | [azurerm_subnet.yba_subnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet) | resource |
 | [azurerm_subnet_network_security_group_association.subnet_nsg_association](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/subnet_network_security_group_association) | resource |
 | [azurerm_virtual_network.yb_vnet](https://registry.terraform.io/providers/hashicorp/azurerm/3.0.0/docs/resources/virtual_network) | resource |
+| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/customer_resource) | resource |
 | [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/installer) | resource |
 | [azuread_client_config.current](https://registry.terraform.io/providers/hashicorp/azuread/2.41.0/docs/data-sources/client_config) | data source |
 
@@ -136,15 +137,15 @@ No modules.
 | <a name="input_vnet_cidr_block"></a> [vnet\_cidr\_block](#input\_vnet\_cidr\_block) | The CIDR block for the virtual network. This should be large enough to hold the YBA and universe subnets. | `string` | `"10.0.0.0/16"` | no |
 | <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the YBA admin | `string` | n/a | yes |
 | <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The username for the YBA admin | `string` | n/a | yes |
-| <a name="input_yba_disk_size"></a> [yba\_disk\_size](#input\_yba\_disk\_size) | The size of disk for the YBA VM (in GB) | `string` | `"100"` | no |
+| <a name="input_yba_disk_size"></a> [yba\_disk\_size](#input\_yba\_disk\_size) | The size of disk for the YBA VM (in GB) | `string` | `"300"` | no |
 | <a name="input_yba_disk_type"></a> [yba\_disk\_type](#input\_yba\_disk\_type) | The type of disk for the YBA VM | `string` | `"Premium_LRS"` | no |
 | <a name="input_yba_license_file"></a> [yba\_license\_file](#input\_yba\_license\_file) | The path to the license file for YBA | `string` | n/a | yes |
 | <a name="input_yba_nsg_source_cidr"></a> [yba\_nsg\_source\_cidr](#input\_yba\_nsg\_source\_cidr) | The source CIDR block of external access for the YBA network security group. This is probably your IP address. | `string` | n/a | yes |
 | <a name="input_yba_settings_file"></a> [yba\_settings\_file](#input\_yba\_settings\_file) | The path to the settings file for YBA | `string` | `""` | no |
-| <a name="input_yba_source_image_offer"></a> [yba\_source\_image\_offer](#input\_yba\_source\_image\_offer) | The offer for the YBA VM source image | `string` | `"0001-com-ubuntu-server-jammy"` | no |
-| <a name="input_yba_source_image_publisher"></a> [yba\_source\_image\_publisher](#input\_yba\_source\_image\_publisher) | The publisher of the YBA VM source image | `string` | `"Canonical"` | no |
-| <a name="input_yba_source_image_sku"></a> [yba\_source\_image\_sku](#input\_yba\_source\_image\_sku) | The SKU for the YBA VM source image | `string` | `"22_04-lts-gen2"` | no |
-| <a name="input_yba_source_image_version"></a> [yba\_source\_image\_version](#input\_yba\_source\_image\_version) | The version of the YBA VM source image | `string` | `"latest"` | no |
+| <a name="input_yba_source_image_offer"></a> [yba\_source\_image\_offer](#input\_yba\_source\_image\_offer) | The offer for the YBA VM source image | `string` | n/a | yes |
+| <a name="input_yba_source_image_publisher"></a> [yba\_source\_image\_publisher](#input\_yba\_source\_image\_publisher) | The publisher of the YBA VM source image | `string` | n/a | yes |
+| <a name="input_yba_source_image_sku"></a> [yba\_source\_image\_sku](#input\_yba\_source\_image\_sku) | The SKU for the YBA VM source image | `string` | n/a | yes |
+| <a name="input_yba_source_image_version"></a> [yba\_source\_image\_version](#input\_yba\_source\_image\_version) | The version of the YBA VM source image | `string` | n/a | yes |
 | <a name="input_yba_subnet_cidr"></a> [yba\_subnet\_cidr](#input\_yba\_subnet\_cidr) | The CIDR block for the YBA subnet | `string` | `"10.0.1.0/24"` | no |
 | <a name="input_yba_version"></a> [yba\_version](#input\_yba\_version) | The version of YBA to install (including build number) | `string` | n/a | yes |
 
