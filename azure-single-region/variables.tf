@@ -100,7 +100,7 @@ variable "yba_admin_email" {
 variable "yba_disk_size" {
   description = "The size of disk for the YBA VM (in GB)"
   type        = string
-  default     = "100"
+  default     = "300"
 
 }
 
@@ -129,25 +129,21 @@ variable "yba_settings_file" {
 variable "yba_source_image_offer" {
   description = "The offer for the YBA VM source image"
   type        = string
-  default     = "0001-com-ubuntu-server-jammy"
 }
 
 variable "yba_source_image_publisher" {
   description = "The publisher of the YBA VM source image"
   type        = string
-  default     = "Canonical"
 }
 
 variable "yba_source_image_sku" {
   description = "The SKU for the YBA VM source image"
   type        = string
-  default     = "22_04-lts-gen2"
 }
 
 variable "yba_source_image_version" {
   description = "The version of the YBA VM source image"
   type        = string
-  default     = "latest"
 }
 
 variable "yba_subnet_cidr" {

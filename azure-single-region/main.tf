@@ -219,6 +219,7 @@ locals {
 
 # VM for YBA
 resource "azurerm_linux_virtual_machine" "yba_vm" {
+  depends_on            = [azurerm_marketplace_agreement.yba_vm_agreement]
   name                  = "${var.resource_prefix}-vm"
   resource_group_name   = azurerm_resource_group.yb_resource_group.name
   location              = azurerm_resource_group.yb_resource_group.location
@@ -246,12 +247,6 @@ resource "azurerm_linux_virtual_machine" "yba_vm" {
     version   = var.yba_source_image_version
   }
 
-  plan {
-    publisher = var.yba_source_image_publisher
-    name      = var.yba_source_image_sku
-    product   = var.yba_source_image_offer
-  }
-
   tags = {
     yb_owner    = var.owner_tag_value
     yb_dept     = var.department_tag_value
@@ -274,9 +269,10 @@ resource "yba_installer" "yba" {
 
 # Admin user for YBA
 # Make sure YB_CUSTOMER_PASSWORD environment variable is set
-#resource "yba_customer_resource" "yba_admin" {
-#  provider = yba.unauthenticated
-#  code     = "admin"
-#  email    = var.yba_admin_email
-#  name     = var.yba_admin_name
-#}
+resource "yba_customer_resource" "yba_admin" {
+  depends_on = [yba_installer.yba]
+  provider   = yba.unauthenticated
+  code       = "admin"
+  email      = var.yba_admin_email
+  name       = var.yba_admin_name
+}
