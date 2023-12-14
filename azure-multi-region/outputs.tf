@@ -9,24 +9,24 @@ output "provider_application_client_secret" {
   sensitive   = true
 }
 
-output "provider_vnet_id" {
-  description = "The ID of the created vnet for the Azure cloud provider."
-  value       = azurerm_virtual_network.yba_vnet.guid
+output "provider_vnet_ids" {
+  description = "The ID of the created vnets for the Azure cloud provider."
+  value       = [for vnet in azurerm_virtual_network.universe_vnets : vnet.guid]
 }
 
-#output "provider_region_subnet_names" {
-#  description = "The subnet names to use for the Azure cloud provider's region."
-#  value       = [for subnet in azurerm_subnet.universe_subnets : subnet.name]
-#}
+output "provider_region_subnet_names" {
+  description = "The subnet names for the Azure cloud provider's region."
+  value       = [for subnet in azurerm_subnet.universe_subnets : subnet.name]
+}
 
-output "provider_region_virtual_network_name" {
-  description = "The virtual network name to use for the Azure cloud provider."
-  value       = azurerm_virtual_network.yba_vnet.name
+output "provider_region_virtual_network_names" {
+  description = "The virtual network names for the Azure cloud provider."
+  value       = [for vnet in azurerm_virtual_network.universe_vnets : vnet.name]
 }
 
 output "provider_resource_group" {
   description = "The resource group for the Azure cloud provider."
-  value       = azurerm_resource_group.yba_resource_group.name
+  value       = azurerm_resource_group.yb_resource_group.name
 }
 
 output "provider_subscription_id" {

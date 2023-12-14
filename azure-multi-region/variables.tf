@@ -23,6 +23,14 @@ variable "owner_tag_value" {
   type        = string
 }
 
+variable "resource_group" {
+  description = "The resource group for Yugabyte"
+  type = object({
+    name   = string
+    region = string
+  })
+}
+
 variable "resource_prefix" {
   description = "Prefix to use for all resource names."
   type        = string
@@ -53,20 +61,14 @@ variable "tenant_id" {
   type        = string
 }
 
-variable "universe_resource_groups" {
-  description = "A map of resource groups to create (1 per region) for universes"
+variable "universe_vnets" {
+  description = "A map of vnets to create (1 per region) for universes"
   type = list(object({
     name            = string
     region          = string
     vnet_cidr_block = string
     subnets         = list(string)
   }))
-}
-
-variable "virtual_machine_zone" {
-  description = "The zone to create the YBA VM in."
-  type        = string
-  default     = "1"
 }
 
 variable "yba_admin_name" {
@@ -102,8 +104,8 @@ variable "yba_nsg_source_cidr" {
   type        = string
 }
 
-variable "yba_resource_group" {
-  description = "The resource group and associated network for YBA"
+variable "yba_vnet" {
+  description = "The vnet for YBA"
   type = object({
     name            = string
     region          = string

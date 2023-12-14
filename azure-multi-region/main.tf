@@ -47,10 +47,10 @@ resource "azuread_service_principal" "yba_application_sp" {
   owners         = [data.azuread_client_config.current.object_id]
 }
 
-# YBA Resource group
-resource "azurerm_resource_group" "yba_resource_group" {
-  name     = var.yba_resource_group.name
-  location = var.yba_resource_group.region
+# Yugabyte resource group
+resource "azurerm_resource_group" "yb_resource_group" {
+  name     = var.resource_group.name
+  location = var.resource_group.region
   tags = {
     yb_owner    = var.owner_tag_value
     yb_dept     = var.department_tag_value
@@ -61,24 +61,24 @@ resource "azurerm_resource_group" "yba_resource_group" {
 
 # Application Network Contributor role for rg
 resource "azurerm_role_assignment" "app_network_contributor_role_assignment" {
-  scope                = azurerm_resource_group.yba_resource_group.id
+  scope                = azurerm_resource_group.yb_resource_group.id
   principal_id         = azuread_service_principal.yba_application_sp.id
   role_definition_name = "Network Contributor"
 }
 
 # Application Virtual Machine Contributor role for rg
 resource "azurerm_role_assignment" "app_virtual_machine_contributor_role_assignment" {
-  scope                = azurerm_resource_group.yba_resource_group.id
+  scope                = azurerm_resource_group.yb_resource_group.id
   principal_id         = azuread_service_principal.yba_application_sp.id
   role_definition_name = "Virtual Machine Contributor"
 }
 
 # VNET for YBA
 resource "azurerm_virtual_network" "yba_vnet" {
-  name                = "${azurerm_resource_group.yba_resource_group.name}-vnet"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
-  address_space       = [var.yba_resource_group.vnet_cidr_block]
+  name                = var.yba_vnet.name
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = var.yba_vnet.region
+  address_space       = [var.yba_vnet.vnet_cidr_block]
 
   tags = {
     yb_owner    = var.owner_tag_value
@@ -91,21 +91,20 @@ resource "azurerm_virtual_network" "yba_vnet" {
 # Subnets for YBA
 resource "azurerm_subnet" "yba_subnets" {
   depends_on           = [azurerm_virtual_network.yba_vnet]
-  count                = length(var.yba_resource_group.subnets)
-  name                 = "${azurerm_resource_group.yba_resource_group.name}-subnet-${count.index}"
-  resource_group_name  = azurerm_resource_group.yba_resource_group.name
+  count                = length(var.yba_vnet.subnets)
+  name                 = "${azurerm_virtual_network.yba_vnet.name}-subnet-${count.index}"
+  resource_group_name  = azurerm_resource_group.yb_resource_group.name
   virtual_network_name = azurerm_virtual_network.yba_vnet.name
-  address_prefixes     = [var.yba_resource_group.subnets[count.index]]
+  address_prefixes     = [var.yba_vnet.subnets[count.index]]
 }
 
 # Public IP address for YBA
 resource "azurerm_public_ip" "yba_public_ip" {
   name                = "${var.resource_prefix}-public-ip"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
-  #zones               = [var.virtual_machine_zone]
-  sku               = "Standard"
-  allocation_method = "Static"
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = var.yba_vnet.region
+  sku                 = "Standard"
+  allocation_method   = "Static"
 
   tags = {
     yb_owner    = var.owner_tag_value
@@ -118,8 +117,8 @@ resource "azurerm_public_ip" "yba_public_ip" {
 # Network interface for YBA VM
 resource "azurerm_network_interface" "yba_network_interface" {
   name                = "${var.resource_prefix}-network-interface"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = var.yba_vnet.region
 
   ip_configuration {
     name                          = "yba-network-interface"
@@ -139,8 +138,8 @@ resource "azurerm_network_interface" "yba_network_interface" {
 # Network security group for YBA
 resource "azurerm_network_security_group" "yba_nsg" {
   name                = "${var.resource_prefix}-yba-nsg"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = var.yba_vnet.region
 
   security_rule {
     name                       = "ssh"
@@ -188,7 +187,9 @@ resource "azurerm_network_security_group" "yba_nsg" {
 
 # Association between subnet and nsg
 resource "azurerm_subnet_network_security_group_association" "subnet_nsg_association" {
-  subnet_id                 = azurerm_subnet.yba_subnets[0].id
+  count                     = length(azurerm_subnet.yba_subnets)
+  depends_on                = [azurerm_subnet.yba_subnets, azurerm_network_security_group.yba_nsg]
+  subnet_id                 = azurerm_subnet.yba_subnets[count.index].id
   network_security_group_id = azurerm_network_security_group.yba_nsg.id
 }
 
@@ -209,11 +210,10 @@ locals {
 
 # VM for YBA
 resource "azurerm_linux_virtual_machine" "yba_vm" {
-  depends_on          = [azurerm_marketplace_agreement.yba_vm_agreement]
-  name                = "${var.resource_prefix}-vm"
-  resource_group_name = azurerm_resource_group.yba_resource_group.name
-  location            = azurerm_resource_group.yba_resource_group.location
-  #zone                  = var.virtual_machine_zone
+  depends_on            = [azurerm_marketplace_agreement.yba_vm_agreement]
+  name                  = "${var.resource_prefix}-yba-vm"
+  resource_group_name   = azurerm_resource_group.yb_resource_group.name
+  location              = var.yba_vnet.region
   size                  = var.yba_virtual_machine_size
   admin_username        = var.admin_username
   user_data             = base64encode(local.user_data_script)
@@ -266,27 +266,14 @@ resource "yba_customer_resource" "yba_admin" {
   name       = var.yba_admin_name
 }
 
-# Resource groups for universes
-resource "azurerm_resource_group" "universe_resource_groups" {
-  count    = length(var.universe_resource_groups)
-  name     = var.universe_resource_groups[count.index].name
-  location = var.universe_resource_groups[count.index].region
-  tags = {
-    yb_owner    = var.owner_tag_value
-    yb_dept     = var.department_tag_value
-    yb_task     = var.task_tag_value
-    yb_customer = var.customer_tag_value
-  }
-}
-
 # VNETs for universes
 resource "azurerm_virtual_network" "universe_vnets" {
-  count               = length(var.universe_resource_groups)
-  depends_on          = azurerm_resource_group.universe_resource_groups
-  name                = "${azurerm_resource_group.universe_resource_groups[count.index].name}-vnet"
-  resource_group_name = azurerm_resource_group.universe_resource_groups[count.index].name
-  location            = azurerm_resource_group.universe_resource_groups[count.index].location
-  address_space       = [var.universe_resource_groups[count.index].vnet_cidr_block]
+  count               = length(var.universe_vnets)
+  depends_on          = [azurerm_resource_group.yb_resource_group]
+  name                = var.universe_vnets[count.index].name
+  resource_group_name = azurerm_resource_group.yb_resource_group.name
+  location            = var.universe_vnets[count.index].region
+  address_space       = [var.universe_vnets[count.index].vnet_cidr_block]
   tags = {
     yb_owner    = var.owner_tag_value
     yb_dept     = var.department_tag_value
@@ -295,13 +282,13 @@ resource "azurerm_virtual_network" "universe_vnets" {
   }
 }
 
+# Create a list of universe subnets
 locals {
   universe_subnets = distinct(flatten([
-    for resource_group in var.universe_resource_groups : [
-      for subnet in resource_group.subnets : {
-        resource_group = resource_group.name
-        vnet           = "${resource_group.name}-vnet"
-        subnet         = subnet
+    for vnet in var.universe_vnets : [
+      for subnet in vnet.subnets : {
+        vnet   = vnet.name
+        subnet = subnet
       }
     ]
   ]))
@@ -312,9 +299,28 @@ resource "azurerm_subnet" "universe_subnets" {
   count                = length(local.universe_subnets)
   depends_on           = [azurerm_virtual_network.universe_vnets]
   name                 = "${local.universe_subnets[count.index].vnet}-subnet-${count.index}"
-  resource_group_name  = local.universe_subnets[count.index].resource_group
+  resource_group_name  = azurerm_resource_group.yb_resource_group.name
   virtual_network_name = local.universe_subnets[count.index].vnet
   address_prefixes     = [local.universe_subnets[count.index].subnet]
 }
 
+# YBA - universe vnet peering
+resource "azurerm_virtual_network_peering" "yba_universe_peerings" {
+  count                     = length(azurerm_virtual_network.universe_vnets)
+  depends_on                = [azurerm_virtual_network.universe_vnets, azurerm_virtual_network.yba_vnet]
+  name                      = "yba-universe-${count.index}-peering"
+  resource_group_name       = azurerm_resource_group.yb_resource_group.name
+  virtual_network_name      = azurerm_virtual_network.yba_vnet.name
+  remote_virtual_network_id = azurerm_virtual_network.universe_vnets[count.index].id
+}
+
+# Universe - YBA vnet peering
+resource "azurerm_virtual_network_peering" "universe_yba_peerings" {
+  count                     = length(azurerm_virtual_network.universe_vnets)
+  depends_on                = [azurerm_virtual_network.universe_vnets, azurerm_virtual_network.yba_vnet]
+  name                      = "universe-${count.index}-yba-peering"
+  resource_group_name       = azurerm_resource_group.yb_resource_group.name
+  virtual_network_name      = azurerm_virtual_network.universe_vnets[count.index].name
+  remote_virtual_network_id = azurerm_virtual_network.yba_vnet.id
+}
 
