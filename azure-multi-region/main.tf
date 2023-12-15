@@ -201,6 +201,7 @@ resource "azurerm_marketplace_agreement" "yba_vm_agreement" {
 }
 
 # Script to run on startup
+# Installs YB clients on YBA VM.  SSH into the YBA VM to interact with universes
 locals {
   user_data_script = <<-EOL
   #!/bin/bash -xe
@@ -308,7 +309,7 @@ resource "azurerm_subnet" "universe_subnets" {
 resource "azurerm_virtual_network_peering" "yba_universe_peerings" {
   count                     = length(azurerm_virtual_network.universe_vnets)
   depends_on                = [azurerm_virtual_network.universe_vnets, azurerm_virtual_network.yba_vnet]
-  name                      = "yba-universe-${count.index}-peering"
+  name                      = "${azurerm_virtual_network.yba_vnet.name}-${azurerm_virtual_network.universe_vnets[count.index].name}-peering"
   resource_group_name       = azurerm_resource_group.yb_resource_group.name
   virtual_network_name      = azurerm_virtual_network.yba_vnet.name
   remote_virtual_network_id = azurerm_virtual_network.universe_vnets[count.index].id
@@ -318,7 +319,7 @@ resource "azurerm_virtual_network_peering" "yba_universe_peerings" {
 resource "azurerm_virtual_network_peering" "universe_yba_peerings" {
   count                     = length(azurerm_virtual_network.universe_vnets)
   depends_on                = [azurerm_virtual_network.universe_vnets, azurerm_virtual_network.yba_vnet]
-  name                      = "universe-${count.index}-yba-peering"
+  name                      = "${azurerm_virtual_network.universe_vnets[count.index].name}-${azurerm_virtual_network.yba_vnet.name}-peering"
   resource_group_name       = azurerm_resource_group.yb_resource_group.name
   virtual_network_name      = azurerm_virtual_network.universe_vnets[count.index].name
   remote_virtual_network_id = azurerm_virtual_network.yba_vnet.id
