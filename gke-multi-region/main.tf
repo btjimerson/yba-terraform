@@ -113,12 +113,15 @@ module "yba" {
   providers = {
     kubernetes = kubernetes.gke_cluster_1
   }
-  depends_on       = [module.yba_prerequisites_cluster_1]
-  enable_yba_tls   = var.enable_yba_tls
-  gke_cluster_name = module.gke_clusters[0].cluster_name
-  gcp_project_id   = var.gcp_project_id
-  gcp_region       = var.subnets[0].region
-  yba_namespace    = var.yba_namespace
-  yba_pull_secret  = var.yba_pull_secret
-  yba_version      = var.yba_version
+  depends_on              = [module.yba_prerequisites_cluster_1]
+  enable_yba_tls          = var.enable_yba_tls
+  image_registry_email    = var.image_registry_email
+  image_registry_password = var.image_registry_password
+  image_registry_server   = var.image_registry_server
+  image_registry_username = var.image_registry_username
+  gke_cluster_name        = module.gke_clusters[0].cluster_name
+  gcp_project_id          = var.gcp_project_id
+  gcp_region              = var.subnets[0].region
+  yba_namespace           = var.yba_namespace
+  yba_version             = var.yba_version
 }

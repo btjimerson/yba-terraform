@@ -1,3 +1,19 @@
+variable "image_registry_email" {
+  description = "The email of the server for the Docker image registry"
+  type        = string
+}
+variable "image_registry_password" {
+  description = "The password for the Docker image registry"
+  type        = string
+}
+variable "image_registry_server" {
+  description = "The name of the server for the Docker image registry"
+  type        = string
+}
+variable "image_registry_username" {
+  description = "The username for the Docker image registry"
+  type        = string
+}
 variable "enable_yba_tls" {
   description = "Whether or not to enable TLS for YBA"
   type        = bool
@@ -16,10 +32,6 @@ variable "gcp_project_id" {
 }
 variable "yba_namespace" {
   description = "The name of the namespace for YBA"
-  type        = string
-}
-variable "yba_pull_secret" {
-  description = "The pull secret for YBA (base 64 encoded)"
   type        = string
 }
 variable "yba_version" {

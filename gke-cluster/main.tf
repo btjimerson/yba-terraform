@@ -91,8 +91,11 @@ module "gke_auth" {
 module "yba" {
   source                                       = "./modules/yba"
   depends_on                                   = [google_container_cluster.cluster]
+  image_registry_email                         = var.image_registry_email
+  image_registry_password                      = var.image_registry_password
+  image_registry_server                        = var.image_registry_server
+  image_registry_username                      = var.image_registry_username
   yba_namespace                                = var.yba_namespace
-  yba_pull_secret                              = var.yba_pull_secret
   yba_role                                     = var.yba_role
   yba_role_binding                             = var.yba_role_binding
   yba_sa                                       = var.yba_sa

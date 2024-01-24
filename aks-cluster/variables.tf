@@ -10,6 +10,22 @@ variable "department_tag_value" {
   description = "The value for the department tag for resources"
   type        = string
 }
+variable "image_registry_email" {
+  description = "The email of the server for the Docker image registry"
+  type        = string
+}
+variable "image_registry_password" {
+  description = "The password for the Docker image registry"
+  type        = string
+}
+variable "image_registry_server" {
+  description = "The name of the server for the Docker image registry"
+  type        = string
+}
+variable "image_registry_username" {
+  description = "The username for the Docker image registry"
+  type        = string
+}
 variable "node_count" {
   description = "The number of nodes in the AKS node pool"
   type        = number
@@ -46,10 +62,6 @@ variable "yba_namespace" {
   description = "The name of the namespace for YBA"
   type        = string
   default     = "yugabyte"
-}
-variable "yba_pull_secret" {
-  description = "The pull secret for YBA"
-  type        = string
 }
 variable "yba_role" {
   description = "The name of the YBA role"

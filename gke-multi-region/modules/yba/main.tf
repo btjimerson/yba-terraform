@@ -30,14 +30,22 @@ resource "null_resource" "cluster_kubeconfig" {
   }
 }
 
-# Pull secret for YBA
+// Pull secret for YBA
 resource "kubernetes_secret" "yugabyte_pull_secret" {
+  depends_on = [kubernetes_namespace.yba_namespace]
   metadata {
     name      = "yugabyte-k8s-pull-secret"
     namespace = var.yba_namespace
   }
   data = {
-    ".dockerconfigjson" = var.yba_pull_secret
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${var.image_registry_server}" = {
+          "email" = var.image_registry_email
+          "auth"  = base64encode("${var.image_registry_username}:${var.image_registry_password}")
+        }
+      }
+    })
   }
   type = "kubernetes.io/dockerconfigjson"
 }

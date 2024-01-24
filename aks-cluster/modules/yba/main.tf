@@ -24,7 +24,14 @@ resource "kubernetes_secret" "yugabyte_pull_secret" {
     namespace = var.yba_namespace
   }
   data = {
-    ".dockerconfigjson" = base64encode(var.yba_pull_secret)
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${var.image_registry_server}" = {
+          "email" = var.image_registry_email
+          "auth"  = base64encode("${var.image_registry_username}:${var.image_registry_password}")
+        }
+      }
+    })
   }
   type = "kubernetes.io/dockerconfigjson"
 }
