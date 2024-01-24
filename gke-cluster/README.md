@@ -88,6 +88,10 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_customer_tag_value"></a> [customer\_tag\_value](#input\_customer\_tag\_value) | The value for the customer tag for resources | `string` | n/a | yes |
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
+| <a name="input_image_registry_email"></a> [image\_registry\_email](#input\_image\_registry\_email) | The email of the server for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_password"></a> [image\_registry\_password](#input\_image\_registry\_password) | The password for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_server"></a> [image\_registry\_server](#input\_image\_registry\_server) | The name of the server for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_username"></a> [image\_registry\_username](#input\_image\_registry\_username) | The username for the Docker image registry | `string` | n/a | yes |
 | <a name="input_node_pool_disk_size"></a> [node\_pool\_disk\_size](#input\_node\_pool\_disk\_size) | The size in GB for the node pool's machine disk | `number` | n/a | yes |
 | <a name="input_node_pool_disk_type"></a> [node\_pool\_disk\_type](#input\_node\_pool\_disk\_type) | The disk type to use for the node pool's machine disk (one of pd-standard \| pd-balanced \| pd-ssd) | `string` | `"pd-standard"` | no |
 | <a name="input_node_pool_machine_type"></a> [node\_pool\_machine\_type](#input\_node\_pool\_machine\_type) | The machine type to use for the default node pool | `string` | `"c2-standard-16"` | no |
@@ -100,7 +104,6 @@ No requirements.
 | <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | The CIDR range for the new subnet | `string` | `"10.1.0.0/24"` | no |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
 | <a name="input_yba_namespace"></a> [yba\_namespace](#input\_yba\_namespace) | The name of the namespace for YBA | `string` | `"yugabyte"` | no |
-| <a name="input_yba_pull_secret"></a> [yba\_pull\_secret](#input\_yba\_pull\_secret) | The pull secret for YBA | `string` | n/a | yes |
 | <a name="input_yba_role"></a> [yba\_role](#input\_yba\_role) | The name of the YBA role | `string` | `"yba-role"` | no |
 | <a name="input_yba_role_binding"></a> [yba\_role\_binding](#input\_yba\_role\_binding) | The name of the YBA role binding | `string` | `"yba-role-binding"` | no |
 | <a name="input_yba_sa"></a> [yba\_sa](#input\_yba\_sa) | The name of the YBA service account | `string` | `"yba-sa"` | no |
