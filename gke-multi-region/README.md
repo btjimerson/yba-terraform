@@ -75,6 +75,10 @@ No resources.
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
 | <a name="input_enable_yba_tls"></a> [enable\_yba\_tls](#input\_enable\_yba\_tls) | Whether or not to enable TLS for YBA | `bool` | `true` | no |
 | <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | The GCP project ID to use | `string` | n/a | yes |
+| <a name="input_image_registry_email"></a> [image\_registry\_email](#input\_image\_registry\_email) | The email of the server for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_password"></a> [image\_registry\_password](#input\_image\_registry\_password) | The password for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_server"></a> [image\_registry\_server](#input\_image\_registry\_server) | The name of the server for the Docker image registry | `string` | n/a | yes |
+| <a name="input_image_registry_username"></a> [image\_registry\_username](#input\_image\_registry\_username) | The username for the Docker image registry | `string` | n/a | yes |
 | <a name="input_istio_namespace"></a> [istio\_namespace](#input\_istio\_namespace) | The name of the namespace for Istio | `string` | `"istio-system"` | no |
 | <a name="input_kubernetes_version"></a> [kubernetes\_version](#input\_kubernetes\_version) | The version of Kubernetes version | `string` | n/a | yes |
 | <a name="input_node_machine_type"></a> [node\_machine\_type](#input\_node\_machine\_type) | The machine type to use for the nodes | `string` | n/a | yes |
@@ -87,7 +91,6 @@ No resources.
 | <a name="input_universe_management_cluster_role_binding"></a> [universe\_management\_cluster\_role\_binding](#input\_universe\_management\_cluster\_role\_binding) | The name of the universe management cluster role binding | `string` | n/a | yes |
 | <a name="input_universe_management_sa"></a> [universe\_management\_sa](#input\_universe\_management\_sa) | The name of the universe management service account | `string` | n/a | yes |
 | <a name="input_yba_namespace"></a> [yba\_namespace](#input\_yba\_namespace) | The name of the namespace for YBA | `string` | n/a | yes |
-| <a name="input_yba_pull_secret"></a> [yba\_pull\_secret](#input\_yba\_pull\_secret) | The pull secret for YBA (base 64 encoded) | `string` | n/a | yes |
 | <a name="input_yba_version"></a> [yba\_version](#input\_yba\_version) | The version of YBA to install | `string` | n/a | yes |
 
 ## Outputs
