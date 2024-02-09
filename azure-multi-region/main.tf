@@ -325,3 +325,26 @@ resource "azurerm_virtual_network_peering" "universe_yba_peerings" {
   remote_virtual_network_id = azurerm_virtual_network.yba_vnet.id
 }
 
+# Create a list of universe vnet peerings
+locals {
+  universe_vnet_peerings = distinct(flatten([
+    for vnet1 in var.universe_vnets : [
+      for vnet2 in azurerm_virtual_network.universe_vnets : {
+        local_vnet_name  = vnet1.name
+        remote_vnet_name = vnet2.name
+        remote_vnet_id   = vnet2.id
+      } if vnet1.name != vnet2.name
+    ]
+  ]))
+}
+
+# Universe - universe vnet peerings
+resource "azurerm_virtual_network_peering" "universe_universe_peerings" {
+  count                     = length(local.universe_vnet_peerings)
+  depends_on                = [azurerm_virtual_network.universe_vnets]
+  name                      = "${local.universe_vnet_peerings[count.index].local_vnet_name}-${local.universe_vnet_peerings[count.index].remote_vnet_name}-peering"
+  resource_group_name       = azurerm_resource_group.yb_resource_group.name
+  virtual_network_name      = local.universe_vnet_peerings[count.index].local_vnet_name
+  remote_virtual_network_id = local.universe_vnet_peerings[count.index].remote_vnet_id
+}
+
