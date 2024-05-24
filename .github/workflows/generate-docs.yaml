@@ -68,3 +68,11 @@ jobs:
         output-format: "markdown table"
         output-method: "inject"
         git-push: "true"
+    - name: Render terraform docs for azure-infrastructure-only and push changes back
+      uses: terraform-docs/gh-actions@main
+      with:
+        working-dir: azure-infrastructure-only
+        output-file: "README.md"
+        output-format: "markdown table"
+        output-method: "inject"
+        git-push: "true"
