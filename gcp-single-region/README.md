@@ -41,12 +41,19 @@ Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
 
 Outputs:
 
+provider_network_name = "bjimerson-test-vpc"
+provider_region = "us-east5"
+provider_subnets = [
+  "bjimerson-test-universe-subnet-1",
+  "bjimerson-test-universe-subnet-2",
+  "bjimerson-test-universe-subnet-3",
+]
 yba_url = "https://34.162.244.52"
 
 
 ```
 
-To access the YBA Plaform UI, use the output value for `yba_url`.
+To access the YBA Plaform UI, use the output value for `yba_url`. You can use the outputs that start with `provider_` to configure the GCP provider.
 
 
 <!-- BEGIN_TF_DOCS -->
