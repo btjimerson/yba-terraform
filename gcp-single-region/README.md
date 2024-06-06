@@ -59,29 +59,32 @@ To access the YBA Plaform UI, use the output value for `yba_url`. You can use th
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.8 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | n/a |
+| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.8 |
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_gke_auth"></a> [gke\_auth](#module\_gke\_auth) | terraform-google-modules/kubernetes-engine/google/modules/auth | n/a |
-| <a name="module_yba"></a> [yba](#module\_yba) | ./modules/yba | n/a |
+No modules.
 
 ## Resources
 
 | Name | Type |
 |------|------|
+| [google_compute_firewall.yb_firewall](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_instance.yba_instance](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
-| [google_compute_subnetwork.subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
-| [google_container_cluster.cluster](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_cluster) | resource |
-| [google_container_node_pool.primary_node_pool](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/container_node_pool) | resource |
+| [google_compute_subnetwork.universe_subnets](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
+| [google_compute_subnetwork.yba_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
+| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/customer_resource) | resource |
+| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/installer) | resource |
 | [google_client_config.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
@@ -90,35 +93,33 @@ No requirements.
 |------|-------------|------|---------|:--------:|
 | <a name="input_customer_tag_value"></a> [customer\_tag\_value](#input\_customer\_tag\_value) | The value for the customer tag for resources | `string` | n/a | yes |
 | <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
-| <a name="input_image_registry_email"></a> [image\_registry\_email](#input\_image\_registry\_email) | The email of the server for the Docker image registry | `string` | n/a | yes |
-| <a name="input_image_registry_password"></a> [image\_registry\_password](#input\_image\_registry\_password) | The password for the Docker image registry | `string` | n/a | yes |
-| <a name="input_image_registry_server"></a> [image\_registry\_server](#input\_image\_registry\_server) | The name of the server for the Docker image registry | `string` | n/a | yes |
-| <a name="input_image_registry_username"></a> [image\_registry\_username](#input\_image\_registry\_username) | The username for the Docker image registry | `string` | n/a | yes |
-| <a name="input_node_pool_disk_size"></a> [node\_pool\_disk\_size](#input\_node\_pool\_disk\_size) | The size in GB for the node pool's machine disk | `number` | n/a | yes |
-| <a name="input_node_pool_disk_type"></a> [node\_pool\_disk\_type](#input\_node\_pool\_disk\_type) | The disk type to use for the node pool's machine disk (one of pd-standard \| pd-balanced \| pd-ssd) | `string` | `"pd-standard"` | no |
-| <a name="input_node_pool_machine_type"></a> [node\_pool\_machine\_type](#input\_node\_pool\_machine\_type) | The machine type to use for the default node pool | `string` | `"c2-standard-16"` | no |
-| <a name="input_node_pool_size"></a> [node\_pool\_size](#input\_node\_pool\_size) | The number of nodes in the default node pool (per zone) | `number` | `1` | no |
 | <a name="input_owner_tag_value"></a> [owner\_tag\_value](#input\_owner\_tag\_value) | The value for the owner tag for resources | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | The project ID | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The region to create the cluster in | `string` | n/a | yes |
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | A prefix added to all created resources | `string` | n/a | yes |
 | <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
-| <a name="input_subnet_cidr"></a> [subnet\_cidr](#input\_subnet\_cidr) | The CIDR range for the new subnet | `string` | `"10.1.0.0/24"` | no |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
-| <a name="input_yba_namespace"></a> [yba\_namespace](#input\_yba\_namespace) | The name of the namespace for YBA | `string` | `"yugabyte"` | no |
-| <a name="input_yba_role"></a> [yba\_role](#input\_yba\_role) | The name of the YBA role | `string` | `"yba-role"` | no |
-| <a name="input_yba_role_binding"></a> [yba\_role\_binding](#input\_yba\_role\_binding) | The name of the YBA role binding | `string` | `"yba-role-binding"` | no |
-| <a name="input_yba_sa"></a> [yba\_sa](#input\_yba\_sa) | The name of the YBA service account | `string` | `"yba-sa"` | no |
-| <a name="input_yba_universe_management_cluster_role"></a> [yba\_universe\_management\_cluster\_role](#input\_yba\_universe\_management\_cluster\_role) | The name of the universe management cluster role | `string` | `"yugabyte-platform-global-admin"` | no |
-| <a name="input_yba_universe_management_cluster_role_binding"></a> [yba\_universe\_management\_cluster\_role\_binding](#input\_yba\_universe\_management\_cluster\_role\_binding) | The name of the universe management cluster role binding | `string` | `"yugabyte-platform-global-admin"` | no |
-| <a name="input_yba_universe_management_namespace"></a> [yba\_universe\_management\_namespace](#input\_yba\_universe\_management\_namespace) | The namespace for the universement management sa and role | `string` | `"kube-system"` | no |
-| <a name="input_yba_universe_management_sa"></a> [yba\_universe\_management\_sa](#input\_yba\_universe\_management\_sa) | The name of the universe management service account | `string` | `"yugabyte-platform-universe-management"` | no |
+| <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. The key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
+| <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the YBA administrator | `string` | n/a | yes |
+| <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The username for the YBA administrator | `string` | n/a | yes |
+| <a name="input_yba_allowed_source_range"></a> [yba\_allowed\_source\_range](#input\_yba\_allowed\_source\_range) | The allowed source IP range for YBA | `string` | n/a | yes |
+| <a name="input_yba_boot_disk_size"></a> [yba\_boot\_disk\_size](#input\_yba\_boot\_disk\_size) | The size of the YBA instance's boot disk (in GB) | `number` | `500` | no |
+| <a name="input_yba_instance_image"></a> [yba\_instance\_image](#input\_yba\_instance\_image) | The image to use for the YBA compute instance | `string` | n/a | yes |
+| <a name="input_yba_instance_type"></a> [yba\_instance\_type](#input\_yba\_instance\_type) | The instance type to use for the YBA compute instance | `string` | n/a | yes |
+| <a name="input_yba_instance_zone"></a> [yba\_instance\_zone](#input\_yba\_instance\_zone) | The zone to create the YBA compute instance in | `string` | n/a | yes |
+| <a name="input_yba_license_file"></a> [yba\_license\_file](#input\_yba\_license\_file) | The path to the license file for YBA | `string` | n/a | yes |
+| <a name="input_yba_settings_file"></a> [yba\_settings\_file](#input\_yba\_settings\_file) | The path to the settings file for YBA (leave blank to use defaults) | `string` | `""` | no |
+| <a name="input_yba_ssh_admin_username"></a> [yba\_ssh\_admin\_username](#input\_yba\_ssh\_admin\_username) | The username for the SSH admin for the YBA instance | `string` | n/a | yes |
+| <a name="input_yba_ssh_private_key_path"></a> [yba\_ssh\_private\_key\_path](#input\_yba\_ssh\_private\_key\_path) | The path to the private key to use for SSH access to the YBA instance | `string` | n/a | yes |
+| <a name="input_yba_subnet_cidr"></a> [yba\_subnet\_cidr](#input\_yba\_subnet\_cidr) | The CIDR block for the YBA subnet | `string` | `"10.0.1.0/24"` | no |
 | <a name="input_yba_version"></a> [yba\_version](#input\_yba\_version) | The version of YBA to install | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_configure_kubectl_command"></a> [configure\_kubectl\_command](#output\_configure\_kubectl\_command) | Run this command to configure kubectl to use this cluster |
-| <a name="output_kubeconfig_raw"></a> [kubeconfig\_raw](#output\_kubeconfig\_raw) | The raw kubeconfig text. This is considered sensitive; it can be viewed with 'terraform output kubeconfig\_raw' |
+| <a name="output_provider_network_name"></a> [provider\_network\_name](#output\_provider\_network\_name) | The name of the VPC network created. |
+| <a name="output_provider_region"></a> [provider\_region](#output\_provider\_region) | The region to use for subnets. |
+| <a name="output_provider_subnets"></a> [provider\_subnets](#output\_provider\_subnets) | The subnets created for the provider |
+| <a name="output_yba_url"></a> [yba\_url](#output\_yba\_url) | The URL for YBA. |
 <!-- END_TF_DOCS -->
