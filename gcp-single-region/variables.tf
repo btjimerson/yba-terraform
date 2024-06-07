@@ -39,16 +39,16 @@ variable "universe_subnets" {
     "3" = "10.0.4.0/24"
   }
 }
+variable "yb_allowed_source_range" {
+  description = "The allowed source IP range for YB resources"
+  type        = string
+}
 variable "yba_admin_email" {
   description = "The email address for the YBA administrator"
   type        = string
 }
 variable "yba_admin_name" {
   description = "The username for the YBA administrator"
-  type        = string
-}
-variable "yba_allowed_source_range" {
-  description = "The allowed source IP range for YBA"
   type        = string
 }
 variable "yba_boot_disk_size" {

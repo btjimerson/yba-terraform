@@ -53,7 +53,7 @@ resource "google_compute_firewall" "yb_firewall" {
     protocol = "tcp"
     ports    = ["22", "80", "443", "5433", "9000", "9042"]
   }
-  source_ranges = [var.yba_allowed_source_range]
+  source_ranges = [var.yb_allowed_source_range]
 
 }
 
