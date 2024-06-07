@@ -427,15 +427,9 @@ resource "aws_instance" "yba" {
   }
 }
 
-# Wait 2 minutes for python to finish installing
-resource "time_sleep" "wait_2_minutes" {
-  depends_on      = [aws_instance.yba]
-  create_duration = "120s"
-}
-
 # YBA Installer
 resource "yba_installer" "yba" {
-  depends_on                = [time_sleep.wait_2_minutes]
+  depends_on                = [aws_instance.yba]
   provider                  = yba.unauthenticated
   ssh_host_ip               = aws_instance.yba.public_ip
   ssh_user                  = var.ssh_user
