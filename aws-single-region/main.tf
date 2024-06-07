@@ -2,13 +2,18 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~> 5.0"
     }
     yba = {
       source  = "yugabyte/yba"
-      version = "0.1.8"
+      version = "0.1.11"
     }
   }
+}
+
+# AWS provider
+provider "aws" {
+  region = var.region
 }
 
 # Unauthenticated YBA provider
@@ -193,6 +198,13 @@ resource "aws_security_group" "universe_sg" {
     from_port   = 6379
     protocol    = "tcp"
     to_port     = 6379
+  }
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "node-agent"
+    from_port   = 9070
+    protocol    = "tcp"
+    to_port     = 9070
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
@@ -400,13 +412,6 @@ resource "aws_instance" "yba" {
   key_name                    = var.yba_keypair_name
   iam_instance_profile        = aws_iam_instance_profile.yba_instance_profile.name
   security_groups             = [aws_security_group.yba_sg.id]
-  user_data                   = <<-EOL
-    #!/bin/bash -xe
-    curl -sSL https://downloads.yugabyte.com/get_clients.sh | bash
-    sudo apt-get update
-    sudo apt-get install -y python3.8
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
-    EOL
   root_block_device {
     delete_on_termination = true
     volume_size           = var.yba_instance_volume_size
@@ -422,7 +427,7 @@ resource "aws_instance" "yba" {
   }
 }
 
-# Wait 60 seconds for python to finish installing
+# Wait 2 minutes for python to finish installing
 resource "time_sleep" "wait_2_minutes" {
   depends_on      = [aws_instance.yba]
   create_duration = "120s"
