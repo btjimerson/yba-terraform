@@ -100,9 +100,9 @@ No modules.
 | <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
 | <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. The key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
+| <a name="input_yb_allowed_source_range"></a> [yb\_allowed\_source\_range](#input\_yb\_allowed\_source\_range) | The allowed source IP range for YB resources | `string` | n/a | yes |
 | <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the YBA administrator | `string` | n/a | yes |
 | <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The username for the YBA administrator | `string` | n/a | yes |
-| <a name="input_yba_allowed_source_range"></a> [yba\_allowed\_source\_range](#input\_yba\_allowed\_source\_range) | The allowed source IP range for YBA | `string` | n/a | yes |
 | <a name="input_yba_boot_disk_size"></a> [yba\_boot\_disk\_size](#input\_yba\_boot\_disk\_size) | The size of the YBA instance's boot disk (in GB) | `number` | `500` | no |
 | <a name="input_yba_instance_image"></a> [yba\_instance\_image](#input\_yba\_instance\_image) | The image to use for the YBA compute instance | `string` | n/a | yes |
 | <a name="input_yba_instance_type"></a> [yba\_instance\_type](#input\_yba\_instance\_type) | The instance type to use for the YBA compute instance | `string` | n/a | yes |
