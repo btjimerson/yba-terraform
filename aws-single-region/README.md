@@ -67,16 +67,15 @@ These outputs can be used to configure a cloud provider for AWS in YBA, either t
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
-| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.8 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.11 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
-| <a name="provider_time"></a> [time](#provider\_time) | n/a |
-| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.8 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
+| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.11 |
 
 ## Modules
 
@@ -99,9 +98,8 @@ No modules.
 | [aws_subnet.yb_private_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.yb_public_subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_vpc.yb_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
-| [time_sleep.wait_2_minutes](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
-| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/customer_resource) | resource |
-| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/installer) | resource |
+| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/customer_resource) | resource |
+| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/installer) | resource |
 | [aws_ami.yba_ami](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 
 ## Inputs
