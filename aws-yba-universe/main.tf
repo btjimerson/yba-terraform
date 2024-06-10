@@ -1,5 +1,9 @@
 # Providers
 terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-aws-yba-universe"
+  }
   required_providers {
     yba = {
       source  = "yugabyte/yba"

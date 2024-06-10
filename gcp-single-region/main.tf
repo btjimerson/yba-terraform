@@ -11,6 +11,10 @@ provider "yba" {
 }
 
 terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-gcp-single-region"
+  }
   required_providers {
     yba = {
       source  = "yugabyte/yba"

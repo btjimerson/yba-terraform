@@ -1,4 +1,8 @@
 terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-gke-multi-region"
+  }
   required_providers {
     google = {
       source  = "hashicorp/google"

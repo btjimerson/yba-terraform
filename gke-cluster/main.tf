@@ -1,5 +1,12 @@
 data "google_client_config" "default" {}
 
+terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-gke-cluster"
+  }
+}
+
 provider "google" {
   project = var.project_id
   region  = var.region

@@ -1,4 +1,8 @@
 terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-azure-multi-region"
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"

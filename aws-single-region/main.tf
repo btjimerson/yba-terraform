@@ -1,4 +1,8 @@
 terraform {
+  backend "gcs" {
+    bucket = "bjimerson-tf-backend"
+    prefix = "bjimerson-aws-single-region"
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
