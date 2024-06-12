@@ -30,14 +30,10 @@ variable "task_tag_value" {
   description = "The value for the task tag for resources"
   type        = string
 }
-variable "universe_subnets" {
-  description = "Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet_cidr_block. The key is made part of the subnet name."
-  type        = map(string)
-  default = {
-    "1" = "10.0.2.0/24",
-    "2" = "10.0.3.0/24",
-    "3" = "10.0.4.0/24"
-  }
+variable "universe_subnet" {
+  description = "Subnet to create for YB universes"
+  type        = string
+  default     = "10.0.2.0/24"
 }
 variable "yb_allowed_source_range" {
   description = "The allowed source IP range for YB resources"
