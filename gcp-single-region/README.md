@@ -61,14 +61,14 @@ To access the YBA Plaform UI, use the output value for `yba_url`. You can use th
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.8 |
+| <a name="requirement_yba"></a> [yba](#requirement\_yba) | 0.1.11 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | n/a |
-| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.8 |
+| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.11 |
 
 ## Modules
 
@@ -78,13 +78,15 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [google_compute_firewall.yb_firewall](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.yb_nodes_api_firewall](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.yba_firewall](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [google_compute_firewall.yba_to_yb_nodes_firewall](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
 | [google_compute_instance.yba_instance](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance) | resource |
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
-| [google_compute_subnetwork.universe_subnets](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
+| [google_compute_subnetwork.universe_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
 | [google_compute_subnetwork.yba_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
-| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/customer_resource) | resource |
-| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.8/docs/resources/installer) | resource |
+| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/customer_resource) | resource |
+| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/installer) | resource |
 | [google_client_config.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
@@ -99,7 +101,7 @@ No modules.
 | <a name="input_resource_prefix"></a> [resource\_prefix](#input\_resource\_prefix) | A prefix added to all created resources | `string` | n/a | yes |
 | <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
 | <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
-| <a name="input_universe_subnets"></a> [universe\_subnets](#input\_universe\_subnets) | Subnets to create for YB universes. Each subnet should have a CIDR range in the vnet\_cidr\_block. The key is made part of the subnet name. | `map(string)` | <pre>{<br>  "1": "10.0.2.0/24",<br>  "2": "10.0.3.0/24",<br>  "3": "10.0.4.0/24"<br>}</pre> | no |
+| <a name="input_universe_subnet"></a> [universe\_subnet](#input\_universe\_subnet) | Subnet to create for YB universes | `string` | `"10.0.2.0/24"` | no |
 | <a name="input_yb_allowed_source_range"></a> [yb\_allowed\_source\_range](#input\_yb\_allowed\_source\_range) | The allowed source IP range for YB resources | `string` | n/a | yes |
 | <a name="input_yba_admin_email"></a> [yba\_admin\_email](#input\_yba\_admin\_email) | The email address for the YBA administrator | `string` | n/a | yes |
 | <a name="input_yba_admin_name"></a> [yba\_admin\_name](#input\_yba\_admin\_name) | The username for the YBA administrator | `string` | n/a | yes |
@@ -120,6 +122,9 @@ No modules.
 |------|-------------|
 | <a name="output_provider_network_name"></a> [provider\_network\_name](#output\_provider\_network\_name) | The name of the VPC network created. |
 | <a name="output_provider_region"></a> [provider\_region](#output\_provider\_region) | The region to use for subnets. |
-| <a name="output_provider_subnets"></a> [provider\_subnets](#output\_provider\_subnets) | The subnets created for the provider |
+| <a name="output_provider_subnet"></a> [provider\_subnet](#output\_provider\_subnet) | The subnet created for the provider |
+| <a name="output_yba_api_token"></a> [yba\_api\_token](#output\_yba\_api\_token) | The API token for the YBA admin user |
+| <a name="output_yba_hostname"></a> [yba\_hostname](#output\_yba\_hostname) | The hostname of the YBA instance |
+| <a name="output_yba_subnet"></a> [yba\_subnet](#output\_yba\_subnet) | The subnet created for YBA |
 | <a name="output_yba_url"></a> [yba\_url](#output\_yba\_url) | The URL for YBA. |
 <!-- END_TF_DOCS -->
