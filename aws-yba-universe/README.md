@@ -77,11 +77,16 @@ No modules.
 | <a name="input_cloud_provider_region_security_group_id"></a> [cloud\_provider\_region\_security\_group\_id](#input\_cloud\_provider\_region\_security\_group\_id) | The security group ID for the region | `string` | n/a | yes |
 | <a name="input_cloud_provider_region_vpc_id"></a> [cloud\_provider\_region\_vpc\_id](#input\_cloud\_provider\_region\_vpc\_id) | The VPC ID for the region | `string` | n/a | yes |
 | <a name="input_cloud_provider_region_zones"></a> [cloud\_provider\_region\_zones](#input\_cloud\_provider\_region\_zones) | The zones to define for the region | <pre>map(object({<br>    code      = string<br>    subnet_id = string<br>  }))</pre> | n/a | yes |
+| <a name="input_customer_tag_value"></a> [customer\_tag\_value](#input\_customer\_tag\_value) | The value for the customer tag for resources | `string` | n/a | yes |
+| <a name="input_department_tag_value"></a> [department\_tag\_value](#input\_department\_tag\_value) | The value for the department tag for resources | `string` | n/a | yes |
 | <a name="input_device_info_disk_iops"></a> [device\_info\_disk\_iops](#input\_device\_info\_disk\_iops) | The provisioned disk IOPS | `number` | `3000` | no |
 | <a name="input_device_info_number_of_volumes"></a> [device\_info\_number\_of\_volumes](#input\_device\_info\_number\_of\_volumes) | The number of volumes for universe devices | `number` | `1` | no |
 | <a name="input_device_info_storage_type"></a> [device\_info\_storage\_type](#input\_device\_info\_storage\_type) | The storage type for universe devices | `string` | n/a | yes |
 | <a name="input_device_info_throughput"></a> [device\_info\_throughput](#input\_device\_info\_throughput) | The provisioned disk throughput | `number` | `125` | no |
 | <a name="input_device_info_volume_size"></a> [device\_info\_volume\_size](#input\_device\_info\_volume\_size) | The size of the volumes for universe devices | `number` | n/a | yes |
+| <a name="input_owner_tag_value"></a> [owner\_tag\_value](#input\_owner\_tag\_value) | The value for the owner tag for resources | `string` | n/a | yes |
+| <a name="input_sales_region_tag_value"></a> [sales\_region\_tag\_value](#input\_sales\_region\_tag\_value) | The value for the sales region tag for resources | `string` | n/a | yes |
+| <a name="input_task_tag_value"></a> [task\_tag\_value](#input\_task\_tag\_value) | The value for the task tag for resources | `string` | n/a | yes |
 | <a name="input_universe_assign_public_ip"></a> [universe\_assign\_public\_ip](#input\_universe\_assign\_public\_ip) | Should we assign public IPs to the nodes? | `bool` | `false` | no |
 | <a name="input_universe_enable_ycql"></a> [universe\_enable\_ycql](#input\_universe\_enable\_ycql) | Should YCQL be enabled for the universe? | `bool` | `true` | no |
 | <a name="input_universe_enable_ysql"></a> [universe\_enable\_ysql](#input\_universe\_enable\_ysql) | Should YSQL be enabled for the universe? | `bool` | `true` | no |
