@@ -1,18 +1,18 @@
 terraform {
-  backend "gcs" {
-    bucket = "bjimerson-tf-backend"
-    prefix = "bjimerson-aws-multi-region"
-  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
+    yba = {
+      source  = "yugabyte/yba"
+      version = "0.1.11"
+    }
   }
 }
 
 # Set up Yugabyte Platform
-module "yb_platform" {
+module "yba" {
   source                               = "./modules/yba"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
@@ -33,11 +33,18 @@ module "yb_platform" {
   instance_volume_size                 = var.yba_instance_volume_size
   instance_volume_type                 = var.yba_instance_volume_type
   keypair_name                         = var.yba_keypair_name
+  yba_admin_email                      = var.yba_admin_email
+  yba_admin_name                       = var.yba_admin_name
+  yba_license_file                     = var.yba_license_file
+  yba_settings_file                    = var.yba_settings_file
+  yba_version                          = var.yba_version
+  ssh_private_key_path                 = var.ssh_private_key_path
+  ssh_user                             = var.ssh_user
 }
 
 # VPC for the 1st region
 module "yb_vpc_region_1" {
-  source                               = "./modules/yba"
+  source                               = "./modules/yba-vpc"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -57,7 +64,7 @@ module "yb_vpc_region_1" {
 
 # VPC for the 2nd region
 module "yb_vpc_region_2" {
-  source                               = "./modules/yba"
+  source                               = "./modules/yba-vpc"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -77,7 +84,7 @@ module "yb_vpc_region_2" {
 
 # VPC for the 3rd region
 module "yb_vpc_region_3" {
-  source                               = "./modules/yba"
+  source                               = "./modules/yba-vpc"
   resource_prefix                      = var.resource_prefix
   department_tag_value                 = var.department_tag_value
   task_tag_value                       = var.task_tag_value
@@ -105,9 +112,9 @@ module "yb_pcx_yba_region_1" {
   customer_tag_value            = var.customer_tag_value
   sales_region_tag_value        = var.sales_region_tag_value
   main_region                   = var.yba_region
-  main_vpc_id                   = module.yb_platform.vpc_id
+  main_vpc_id                   = module.yba.vpc_id
   main_public_subnet_cidr_block = var.yba_public_subnet_cidr_block
-  main_public_route_table_id    = module.yb_platform.public_route_table_id
+  main_public_route_table_id    = module.yba.public_route_table_id
   peer_region                   = var.yb_region_1_region
   peer_vpc_id                   = module.yb_vpc_region_1.vpc_id
   peer_public_subnet_cidr_block = var.yb_region_1_public_subnet_cidr_block
@@ -124,9 +131,9 @@ module "yb_pcx_yba_region_2" {
   customer_tag_value            = var.customer_tag_value
   sales_region_tag_value        = var.sales_region_tag_value
   main_region                   = var.yba_region
-  main_vpc_id                   = module.yb_platform.vpc_id
+  main_vpc_id                   = module.yba.vpc_id
   main_public_subnet_cidr_block = var.yba_public_subnet_cidr_block
-  main_public_route_table_id    = module.yb_platform.public_route_table_id
+  main_public_route_table_id    = module.yba.public_route_table_id
   peer_region                   = var.yb_region_2_region
   peer_vpc_id                   = module.yb_vpc_region_2.vpc_id
   peer_public_subnet_cidr_block = var.yb_region_2_public_subnet_cidr_block
@@ -143,9 +150,9 @@ module "yb_pcx_yba_region_3" {
   customer_tag_value            = var.customer_tag_value
   sales_region_tag_value        = var.sales_region_tag_value
   main_region                   = var.yba_region
-  main_vpc_id                   = module.yb_platform.vpc_id
+  main_vpc_id                   = module.yba.vpc_id
   main_public_subnet_cidr_block = var.yba_public_subnet_cidr_block
-  main_public_route_table_id    = module.yb_platform.public_route_table_id
+  main_public_route_table_id    = module.yba.public_route_table_id
   peer_region                   = var.yb_region_3_region
   peer_vpc_id                   = module.yb_vpc_region_3.vpc_id
   peer_public_subnet_cidr_block = var.yb_region_3_public_subnet_cidr_block

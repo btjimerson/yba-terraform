@@ -183,3 +183,39 @@ variable "yb_region_3_private_subnet_zone" {
   description = "The availability zone for the region 3 private subnet"
   type        = string
 }
+
+variable "yba_license_file" {
+  description = "The license file for the YBA installer"
+  type        = string
+}
+
+variable "yba_settings_file" {
+  description = "The settings for the YBA installer"
+  type        = string
+}
+
+variable "yba_version" {
+  description = "The version of YBA to install"
+  type        = string
+}
+
+variable "ssh_private_key_path" {
+  description = "The path to the private key for ssh"
+  type        = string
+}
+
+variable "ssh_user" {
+  description = "The username for ssh"
+  type        = string
+}
+
+variable "yba_admin_email" {
+  description = "The email addrss for the YBA admin"
+  type        = string
+}
+
+variable "yba_admin_name" {
+  description = "The name of the YBA admin"
+  type        = string
+}
+

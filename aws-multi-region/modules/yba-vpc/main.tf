@@ -114,6 +114,13 @@ resource "aws_security_group" "yb_sg" {
   }
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
+    description = "node-agent"
+    from_port   = 9070
+    protocol    = "tcp"
+    to_port     = 9070
+  }
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
     description = "ssh"
     from_port   = 22
     protocol    = "tcp"

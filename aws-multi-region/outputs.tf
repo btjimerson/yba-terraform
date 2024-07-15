@@ -1,6 +1,10 @@
-output "yba_replicated_url" {
-  description = "Replicated URL"
-  value       = module.yb_platform.yba_replicated_url
+output "yba_ip_address" {
+  description = "The IP address of YBA"
+  value       = module.yba.yba_ip_address
+}
+output "yba_url" {
+  description = "The URL for the YBA UI"
+  value       = module.yba.yba_url
 }
 
 output "region_1_name" {

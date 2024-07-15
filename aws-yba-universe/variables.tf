@@ -1,3 +1,15 @@
+variable "customer_tag_value" {
+  description = "The value for the customer tag for resources"
+  type        = string
+}
+variable "department_tag_value" {
+  description = "The value for the department tag for resources"
+  type        = string
+}
+variable "owner_tag_value" {
+  description = "The value for the owner tag for resources"
+  type        = string
+}
 variable "cloud_provider_name" {
   description = "The name for the cloud provider"
   type        = string
@@ -51,6 +63,14 @@ variable "device_info_throughput" {
 variable "device_info_volume_size" {
   description = "The size of the volumes for universe devices"
   type        = number
+}
+variable "sales_region_tag_value" {
+  description = "The value for the sales region tag for resources"
+  type        = string
+}
+variable "task_tag_value" {
+  description = "The value for the task tag for resources"
+  type        = string
 }
 variable "universe_assign_public_ip" {
   description = "Should we assign public IPs to the nodes?"

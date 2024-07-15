@@ -1,6 +1,10 @@
-output "yba_replicated_url" {
-  description = "Replicated URL"
-  value       = "http://${aws_instance.yba.public_ip}:8800"
+output "yba_ip_address" {
+  description = "The IP address of YBA"
+  value       = aws_instance.yba.public_ip
+}
+output "yba_url" {
+  description = "The URL for the YBA UI"
+  value       = "https://${aws_instance.yba.public_ip}"
 }
 
 output "vpc_id" {

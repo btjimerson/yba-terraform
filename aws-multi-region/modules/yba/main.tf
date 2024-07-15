@@ -1,3 +1,22 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+    yba = {
+      source  = "yugabyte/yba"
+      version = "0.1.11"
+    }
+  }
+}
+
+# Unauthenticated YBA provider
+provider "yba" {
+  alias = "unauthenticated"
+  host  = aws_instance.yba.public_ip
+}
+
 provider "aws" {
   region = var.region
 }
@@ -22,17 +41,17 @@ resource "aws_security_group" "yba_sg" {
 
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
-    description = "yba-ui"
+    description = "yba-ui-http"
     from_port   = 80
     protocol    = "tcp"
     to_port     = 80
   }
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
-    description = "replicated-ui"
-    from_port   = 8800
+    description = "yba-ui-https"
+    from_port   = 443
     protocol    = "tcp"
-    to_port     = 8800
+    to_port     = 443
   }
   ingress {
     cidr_blocks = [var.security_groups_external_source_cidr]
@@ -234,13 +253,13 @@ resource "aws_iam_instance_profile" "yba_instance_profile" {
   role = aws_iam_role.yba_role.name
 }
 
+# Find an AMI to use for the YBA instance
 data "aws_ami" "yba_ami" {
   most_recent = true
   filter {
-    name   = "name"
+    name   = "image-id"
     values = ["${var.ami_filter}"]
   }
-  owners = ["${var.ami_owner}"]
 }
 
 resource "aws_instance" "yba" {
@@ -251,10 +270,6 @@ resource "aws_instance" "yba" {
   key_name                    = var.keypair_name
   iam_instance_profile        = aws_iam_instance_profile.yba_instance_profile.name
   security_groups             = [aws_security_group.yba_sg.id]
-  user_data                   = <<-EOL
-    #!/bin/bash -xe
-    curl -sSL https://get.replicated.com/docker | sudo bash
-    EOL
   root_block_device {
     delete_on_termination = true
     volume_size           = var.instance_volume_size
@@ -268,4 +283,26 @@ resource "aws_instance" "yba" {
     "yb_customer"    = var.customer_tag_value
     "yb_salesregion" = var.sales_region_tag_value
   }
+}
+
+# YBA Installer
+resource "yba_installer" "yba" {
+  depends_on                = [aws_instance.yba]
+  provider                  = yba.unauthenticated
+  ssh_host_ip               = aws_instance.yba.public_ip
+  ssh_user                  = var.ssh_user
+  yba_license_file          = var.yba_license_file
+  application_settings_file = var.yba_settings_file == "" ? null : var.yba_settings_file
+  yba_version               = var.yba_version
+  ssh_private_key_file_path = var.ssh_private_key_path
+}
+
+# Admin user for YBA
+# Make sure YB_CUSTOMER_PASSWORD environment variable is set
+resource "yba_customer_resource" "yba_admin" {
+  depends_on = [yba_installer.yba]
+  provider   = yba.unauthenticated
+  code       = "admin"
+  email      = var.yba_admin_email
+  name       = var.yba_admin_name
 }

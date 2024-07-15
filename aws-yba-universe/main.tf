@@ -87,8 +87,15 @@ resource "yba_universe" "aws_universe" {
         volume_size  = var.device_info_volume_size
         throughput   = var.device_info_throughput
       }
-      enable_ycql         = var.universe_enable_ycql
-      enable_ysql         = var.universe_enable_ysql
+      enable_ycql = var.universe_enable_ycql
+      enable_ysql = var.universe_enable_ysql
+      instance_tags = {
+        "yb_dept"        = var.department_tag_value,
+        "yb_task"        = var.task_tag_value,
+        "yb_owner"       = var.owner_tag_value,
+        "yb_customer"    = var.customer_tag_value,
+        "yb_salesregion" = var.sales_region_tag_value
+      }
       instance_type       = var.universe_instance_type
       num_nodes           = var.universe_number_of_nodes
       provider            = yba_cloud_provider.aws_cloud_provider.id
