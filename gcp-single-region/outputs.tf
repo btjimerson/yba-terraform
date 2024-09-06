@@ -1,8 +1,8 @@
-output "yba_api_token" {
-  description = "The API token for the YBA admin user"
-  value       = yba_customer_resource.yba_admin.api_token
-  sensitive   = true
-}
+#output "yba_api_token" {
+#description = "The API token for the YBA admin user"
+#value       = yba_customer_resource.yba_admin.api_token
+#sensitive   = true
+#}
 output "yba_hostname" {
   description = "The hostname of the YBA instance"
   value       = google_compute_instance.yba_instance.network_interface.0.access_config.0.nat_ip

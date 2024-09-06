@@ -16,10 +16,10 @@ provider "yba" {
 }
 
 terraform {
-  backend "gcs" {
-    bucket = "bjimerson-tf-backend"
-    prefix = "bjimerson-gcp-single-region"
-  }
+  #backend "gcs" {
+  #  bucket = "bjimerson-tf-backend"
+  #  prefix = "bjimerson-gcp-single-region"
+  #}
   required_providers {
     yba = {
       source  = "yugabyte/yba"
@@ -116,24 +116,24 @@ resource "google_compute_instance" "yba_instance" {
 }
 
 # YBA Installer
-resource "yba_installer" "yba" {
-  depends_on                = [google_compute_instance.yba_instance]
-  provider                  = yba.unauthenticated
-  ssh_host_ip               = google_compute_instance.yba_instance.network_interface.0.access_config.0.nat_ip
-  ssh_user                  = var.yba_ssh_admin_username
-  yba_license_file          = var.yba_license_file
-  application_settings_file = var.yba_settings_file == "" ? null : var.yba_settings_file
-  yba_version               = var.yba_version
-  ssh_private_key_file_path = var.yba_ssh_private_key_path
-}
+#resource "yba_installer" "yba" {
+#  depends_on                = [google_compute_instance.yba_instance]
+#  provider                  = yba.unauthenticated
+#  ssh_host_ip               = google_compute_instance.yba_instance.network_interface.0.access_config.0.nat_ip
+#  ssh_user                  = var.yba_ssh_admin_username
+#  yba_license_file          = var.yba_license_file
+#  application_settings_file = var.yba_settings_file == "" ? null : var.yba_settings_file
+#  yba_version               = var.yba_version
+#  ssh_private_key_file_path = var.yba_ssh_private_key_path
+#}
 
 # Admin user for YBA
 # Make sure YB_CUSTOMER_PASSWORD environment variable is set
-resource "yba_customer_resource" "yba_admin" {
-  depends_on = [yba_installer.yba]
-  provider   = yba.unauthenticated
-  code       = "admin"
-  email      = var.yba_admin_email
-  name       = var.yba_admin_name
-}
+#resource "yba_customer_resource" "yba_admin" {
+#  depends_on = [yba_installer.yba]
+#  provider   = yba.unauthenticated
+#  code       = "admin"
+#  email      = var.yba_admin_email
+#  name       = var.yba_admin_name
+#}
 
