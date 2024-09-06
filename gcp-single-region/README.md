@@ -68,7 +68,6 @@ To access the YBA Plaform UI, use the output value for `yba_url`. You can use th
 | Name | Version |
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | n/a |
-| <a name="provider_yba.unauthenticated"></a> [yba.unauthenticated](#provider\_yba.unauthenticated) | 0.1.11 |
 
 ## Modules
 
@@ -85,8 +84,6 @@ No modules.
 | [google_compute_network.vpc](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_network) | resource |
 | [google_compute_subnetwork.universe_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
 | [google_compute_subnetwork.yba_subnet](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_subnetwork) | resource |
-| [yba_customer_resource.yba_admin](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/customer_resource) | resource |
-| [yba_installer.yba](https://registry.terraform.io/providers/yugabyte/yba/0.1.11/docs/resources/installer) | resource |
 | [google_client_config.default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
@@ -123,7 +120,6 @@ No modules.
 | <a name="output_provider_network_name"></a> [provider\_network\_name](#output\_provider\_network\_name) | The name of the VPC network created. |
 | <a name="output_provider_region"></a> [provider\_region](#output\_provider\_region) | The region to use for subnets. |
 | <a name="output_provider_subnet"></a> [provider\_subnet](#output\_provider\_subnet) | The subnet created for the provider |
-| <a name="output_yba_api_token"></a> [yba\_api\_token](#output\_yba\_api\_token) | The API token for the YBA admin user |
 | <a name="output_yba_hostname"></a> [yba\_hostname](#output\_yba\_hostname) | The hostname of the YBA instance |
 | <a name="output_yba_subnet"></a> [yba\_subnet](#output\_yba\_subnet) | The subnet created for YBA |
 | <a name="output_yba_url"></a> [yba\_url](#output\_yba\_url) | The URL for YBA. |
